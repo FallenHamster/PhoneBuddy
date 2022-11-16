@@ -1,0 +1,2 @@
+--To Run Command--
+python -m flask run
