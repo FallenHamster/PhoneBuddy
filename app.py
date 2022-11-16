@@ -4,19 +4,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('Home.html')
+    return render_template('home.html')
 
-@app.route('/Login.html')
-def Login():
-    return render_template('Login.html')
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
-#@app.route('/Login.html')
-#def login():
-    #return redirect(url_for('Login.html'))
-
-#@app.route('/')
-#def login():
-    #return redirect(url_for('Login'))
 
 
 
