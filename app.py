@@ -10,6 +10,13 @@ def home():
 def login():
     return render_template('login.html')
 
+@app.route('/header')
+def header():
+    return render_template('header.html')
+
+@app.route('/footer')
+def footer():
+    return render_template('footer.html')
 
 
 
