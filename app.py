@@ -18,6 +18,10 @@ def header():
 def footer():
     return render_template('footer.html')
 
+@app.route('/base')
+def base():
+    return render_template('base.html')
+
 
 
 
