@@ -1,0 +1,48 @@
+DROP TABLE IF EXISTS User;
+
+CREATE TABLE User (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name STRING NOT NULL,
+    last_name STRING NOT NULL,
+    email STRING NOT NULL UNIQUE,
+    password STRING NOT NULL,
+    type STRING NOT NULL
+);
+
+DROP TABLE IF EXISTS Review;
+
+CREATE TABLE Review (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    description STRING NOT NULL,
+    rating STRING NOT NULL,
+    smartphoneID INTEGER NOT NULL,
+    userID INTEGER NOT NULL,
+    FOREIGN KEY(smartphoneID) REFERENCES Smartphone(id),
+    FOREIGN KEY(userID) REFERENCES User(id)
+);
+
+DROP TABLE IF EXISTS Smartphone;
+
+CREATE TABLE Smartphone (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    model STRING NOT NULL,
+    processor STRING NOT NULL,
+    ram STRING NOT NULL,
+    colour STRING NOT NULL,
+    battery INTEGER NOT NULL,
+    price DOUBLE NOT NULL,
+    screenSize DOUBLE NOT NULL,
+    refreshRate INTEGER NOT NULL,
+    OS STRING NOT NULL,
+    description STRING NOT NULL
+);
+
+DROP TABLE IF EXISTS Favourite;
+
+CREATE TABLE Favourite (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    userID INTEGER NOT NULL,
+    smartphoneID INTEGER NOT NULL,
+    FOREIGN KEY(userID) REFERENCES User(id),
+    FOREIGN KEY(smartphoneID) REFERENCES Smartphone(id)
+);
