@@ -6,9 +6,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{% block title %}PhoneBuddy{% endblock %}</title>
 </head>
-<body class="d-flex flex-column">
+<body class="d-flex flex-column vh-100">
     <header>
         <nav class="navbar navbar-light navbar-expand-lg py-3 bg-white">
             <div class="container position-relative">
@@ -43,14 +43,12 @@
     {% block main %}
     {% endblock %}
 
+    
     <footer class="footer py-3">
         <div class="container d-flex justify-content-between">
             <p class="fs-6 m-0 text-muted">&copy; PhoneBuddy</p>
             <div class="d-flex">
-                <p class="fs-6 m-0 text-muted">
-                    Built with <i class="bi bi-suit-heart px-1"></i>
-                    by Khai Gene & Keh Jin
-                </p>
+                <p class="fs-6 m-0 text-muted">Built with by Khai Gene & Keh Jin</p>
             </div>
             <div>
                 <a href="https://www.twitter.com" class="mx-2 text-muted text-decoration-none" target="_blank">
@@ -65,5 +63,6 @@
             </div>
         </div>
     </footer>
+    
 </body>
 </html>

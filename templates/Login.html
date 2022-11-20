@@ -1,19 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login to PhoneBuddy</title>
-</head>
-<body>
-    {% extends 'base.html' %}
+{% extends 'base.html' %}
 
-    {% block main %}
-    <h1>Hello Login Page</h1>
+{% block title %}PhoneBuddy - Login {% endblock %}
 
-    {% endblock %}
-    
-</body>
-</html>
+{% block main %}
+<div class="m-auto py-5" style="min-width: 500px;">
+    <form action="" method="POST">
+
+        <div>
+            <h2 class="text-center fw-bold fs-1 mb-4 p-0 m-0">PhoneBuddy</h2>
+            <h3 class="text-center fw-light mb-4">Login</h3>
+
+            <div class="form-floating mb-4">
+                <label for="email">Email address</label>
+                <input id="email" class="form-control" type="email" name="email" placeholder="name@example.com" required />
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="password">Password</label>
+                <input id="password" class="form-control" type="Password" name="password" placeholder="Enter your password" required />
+            </div>
+
+            <button type="submit" class="btn btn-dark d-block w-100 py-3 mb-4">Login</button>
+        </div>
+    </form>
+
+    <div class="d-flex justify-content-between">
+        <a class="text-dark" href="">Forget Password?</a>
+        <a class="text-dark" href="">Create an account</a>
+    </div>
+</div>
+
+{% endblock %}
+
 
