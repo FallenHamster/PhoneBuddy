@@ -2,7 +2,7 @@ import sqlite3 as sql
 from flask import Flask, render_template, redirect, url_for, request, flash
 from wtforms import StringField, BooleanField, PasswordField, validators
 from flask_wtf import Form
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
