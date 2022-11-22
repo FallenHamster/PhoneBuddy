@@ -1,7 +1,17 @@
 import sqlite3 as sql
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, flash
+from wtforms import StringField, BooleanField, PasswordField, validators
+from flask_wtf import Form
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
+
+class UserForm(Form):
+    first_name = StringField('first_name',[validators.DataRequired()])
+    last_name = StringField('last_name',[validators.DataRequired()])
+    email = StringField('email',[validators.DataRequired()])
+    password = PasswordField('password',[validators.Length(min = 6), validators.DataRequired(), validators.EqualTo('password_confirmation', message = 'Password Must Match')])
+    password_confirmation = PasswordField('password_confirmation',[validators.DataRequired()])
 
 def get_db_connection():
     conn = sql.connect('database.db')
@@ -28,32 +38,21 @@ def footer():
 def base():
     return render_template('base.html')
 
-@app.route('/register')
+@app.route('/register',methods=['GET','POST'])
 def register():
-    return render_template('register.html')
+    form = UserForm(request.form)
+    if request.method == 'POST' and form.validate():
+        with sql.connect("database.db") as conn:
+            cur = conn.cursor()
+            cur.execute("INSERT INTO User (first_name, last_name, email, password, type) VALUES (?,?,?,?,'customer')",(form.first_name.data, form.last_name.data, form.email.data, form.password.data))
 
-@app.route('/addrec',methods=['POST'])
-def addrec():
-    if request.method == 'POST':
-        try:
-            first_name = request.form['first_name']
-            last_name = request.form['last_name']
-            email = request.form['email']
-            password = request.form['password']
+            conn.commit()
+        flash('You were successfully registered an account')
+        return redirect(url_for('login'))
+    return render_template('register.html', form = form)
 
-            with sql.connect("database.db") as conn:
-                cur = conn.cursor()
-                cur.execute("INSERT INTO User (first_name, last_name, email, password, type) VALUES (?,?,?,?,'customer')",(first_name,last_name,email,password))
-
-                conn.commit()
-                msg = "You have registered an account successfully"
-        except:
-                conn.rollback()
-                msg = "Register failed"
-        finally:
-                return render_template("home.html",msg=msg)
-                conn.close()
-
+if __name__ == '__main__':
+    app.run(debug = True)
 
 
 
