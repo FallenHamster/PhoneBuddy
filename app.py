@@ -2,6 +2,7 @@ import sqlite3 as sql
 from flask import Flask, render_template, redirect, url_for, request, flash
 from wtforms import StringField, BooleanField, PasswordField, validators
 from flask_wtf import Form
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
@@ -42,9 +43,10 @@ def base():
 def register():
     form = UserForm(request.form)
     if request.method == 'POST' and form.validate():
+        hashed_pw = generate_password_hash(form.password.data,"sha256")
         with sql.connect("database.db") as conn:
             cur = conn.cursor()
-            cur.execute("INSERT INTO User (first_name, last_name, email, password, type) VALUES (?,?,?,?,'customer')",(form.first_name.data, form.last_name.data, form.email.data, form.password.data))
+            cur.execute("INSERT INTO User (first_name, last_name, email, password, type) VALUES (?,?,?,?,'customer')",(form.first_name.data, form.last_name.data, form.email.data, hashed_pw))
 
             conn.commit()
         flash('You were successfully registered an account')
