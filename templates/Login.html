@@ -21,14 +21,50 @@
             </div>
 
             <button type="submit" class="btn btn-dark d-block w-100 py-3 mb-4">Login</button>
-        </div>
+        </div>     
     </form>
     <div class="d-flex justify-content-between">
         <a class="text-dark" href="">Forget Password?</a>
-        <a class="text-dark" href="">Create an account</a>
+        <a class="text-dark" href="/register">Create an account</a>
     </div>
 </div>
 
+<style>
+.rightbtm{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
+</style>
+{% with registered = get_flashed_messages(category_filter=["registered"]) %}
+{% if registered %}
+    {%- for msg in registered %}
+    <div class="position-relative">
+        <div class="rightbtm" >
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <h4>Registered Successfully!</h4>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+                <p>{{ msg }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor -%}
+{% endif %}
+{% endwith %}
+
+<script>
+    $(function() {
+       $('#flash').delay(500).fadeIn('normal', function() {
+          $(this).delay(2500).fadeOut();
+       });
+    });
+</script>
+
 {% endblock %}
+
 
 
