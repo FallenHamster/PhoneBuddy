@@ -1,13 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhoneBuddy</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Homepage {% endblock %}
+
+{% block main %}
     <h1>Home Page</h1>
     
-</body>
-</html>
+
+
+<style>
+.rightbtm{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
+</style>
+{% with LoggedIn = get_flashed_messages(category_filter=["LoggedIn"]) %}
+{% if LoggedIn %}
+    {%- for msg in LoggedIn %}
+    <div class="position-relative">
+        <div class="rightbtm" >
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <h4>Login Successfully!</h4>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+                <p>{{ msg }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor -%}
+{% endif %}
+{% endwith %}
+
+
+{% endblock %}

@@ -28,6 +28,8 @@ def get_db_connection():
 
 @app.route('/')
 def home():
+    if session.get('loggedin') == False:
+        return redirect('/login')
     return render_template('home.html')
 
 @app.route('/login', methods = ['GET','POST'])
@@ -39,13 +41,23 @@ def login():
             cur = conn.cursor()
             #cur.execute("SELECT * FROM User WHERE email = ? AND password = ?",(form.email.data, hashed_pw))
             #user = cur.fetchall()
-            cur.execute("SELECT email FROM User WHERE email = ?",(form.email.data,))
-            email = cur.fetchall()
+            cur.execute("SELECT id FROM User WHERE email = ?",(form.email.data,))
+            id = cur.fetchone()
+            cur.execute("SELECT first_name FROM User WHERE email = ?",(form.email.data,))
+            first_name = cur.fetchone()
+            cur.execute("SELECT last_name FROM User WHERE email = ?",(form.email.data,))
+            last_name = cur.fetchone()
             cur.execute("SELECT password FROM USER WHERE email = ?",(form.email.data,))
             pwhash = cur.fetchone()
             #if len(email) != 1 or not check_password_hash(pwhash[0],form.password.data):
             if check_password_hash(pwhash[0],form.password.data):
+                session ['loggedin'] = True 
+                session ['id'] = id
+                session ['username'] = first_name
+                message = "Welcome to PhoneBuddy!!"
+                flash(message,'LoggedIn')
                 return render_template('home.html')
+            session ['loggedin'] = False 
             #if user:
                 #session ['loggedin'] = True
                 #session ['id'] = user ['id']
@@ -76,6 +88,8 @@ def logout():
     session.pop('loggedin',None)
     session.pop('id',None)
     session.pop('username',None)
+    message = "Logout Successfully"
+    flash(message,"loggedout")
     return redirect(url_for('/'))
 
 if __name__ == '__main__':
