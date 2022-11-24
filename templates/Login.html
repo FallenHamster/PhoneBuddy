@@ -52,10 +52,11 @@
     padding-bottom: 10px;
 }
 </style>
+
 {% with registered = get_flashed_messages(category_filter=["registered"]) %}
 {% if registered %}
     {%- for msg in registered %}
-    <div class="position-relative">
+    <div id="flash" class="position-relative">
         <div class="rightbtm" >
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <h4>Registered Successfully!</h4>
@@ -71,11 +72,9 @@
 {% endwith %}
 
 <script>
-    $(function() {
-       $('#flash').delay(500).fadeIn('normal', function() {
-          $(this).delay(2500).fadeOut();
-       });
-    });
+    setTimeout(function() {
+        $('#flash').fadeOut('fast');
+    }, 3000);
 </script>
 
 {% endblock %}
