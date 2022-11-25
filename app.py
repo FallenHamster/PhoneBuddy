@@ -28,8 +28,9 @@ def get_db_connection():
 
 @app.route('/')
 def home():
-    if session.get('loggedin') == False:
-        return redirect('/login')
+    #If not loggedin, then redirect to login page
+    #if session.get('loggedin') == False:
+        #return redirect('/login')
     return render_template('home.html')
 
 @app.route('/login', methods = ['GET','POST'])
