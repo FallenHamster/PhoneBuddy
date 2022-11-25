@@ -51,6 +51,8 @@ def login():
                 message = "Welcome to PhoneBuddy!!"
                 flash(message,'LoggedIn')
                 return render_template('home.html')
+            passErr = "Invalid email or password. Please try again!"
+            flash(passErr,'passErr')
             session ['loggedin'] = False 
     return render_template('login.html',form = form)
 
@@ -70,14 +72,14 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', form = form)
 
-
+@app.route('/logout')
 def logout():
     session.pop('loggedin',None)
     session.pop('id',None)
     session.pop('username',None)
-    message = "Logout Successfully"
+    message = "Visit Us Next Time!!"
     flash(message,"loggedout")
-    return redirect(url_for('/'))
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug = True)

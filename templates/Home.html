@@ -34,5 +34,23 @@
 {% endif %}
 {% endwith %}
 
+{% with loggedout = get_flashed_messages(category_filter=["loggedout"]) %}
+{% if loggedout %}
+    {%- for msg in loggedout %}
+    <div class="position-relative">
+        <div class="rightbtm" >
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <h4>Logged Out Successfully!</h4>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+                <p>{{ msg }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor -%}
+{% endif %}
+{% endwith %}
+
 
 {% endblock %}

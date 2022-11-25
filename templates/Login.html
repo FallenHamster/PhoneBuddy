@@ -32,6 +32,15 @@
                     {% endfor %}
                     </ul>
                 {% endif %}
+                {% with passErr = get_flashed_messages(category_filter=["passErr"]) %}
+                    {% if passErr %}
+                        <ul class="errors text-danger">
+                        {%- for msg in passErr %}
+                            <li>{{ msg }}</li>
+                        {% endfor -%}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
             </div>
 
             <button type="submit" class="btn btn-dark d-block w-100 py-3 mb-4">Login</button>
@@ -56,7 +65,7 @@
 {% with registered = get_flashed_messages(category_filter=["registered"]) %}
 {% if registered %}
     {%- for msg in registered %}
-    <div id="flash" class="position-relative">
+    <div class="position-relative">
         <div class="rightbtm" >
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <h4>Registered Successfully!</h4>
@@ -72,9 +81,11 @@
 {% endwith %}
 
 <script>
-    setTimeout(function() {
-        $('#flash').fadeOut('fast');
-    }, 3000);
+    $(function() {
+       $('.flash').delay(500).fadeIn('normal', function() {
+          $(this).delay(2500).fadeOut();
+       });
+    });
 </script>
 
 {% endblock %}
