@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<style>
+    .right{
+        position: absolute;
+        right: 0;
+    }
+</style>
+
+<main class="position-relative">
+    <div class="container">
+        <h1 class="fw-bold text-center my-4">Smartphone</h1>
+        <form action="" method="GET">
+            <div class="mb-5 d-flex position-relative">
+                <!-- Search -->
+                <div class="input-group w-50 mx-auto">
+                    <input class="form-control py-2" placeholder="Search for smartphone" name="query" value="" />
+                    <button type="submit" class="btn btn-secondary text-muted">Search</button>
+                </div>
+
+                <div class="dropdown right">
+                    <select id="sortDropdown" class="btn btn-secondary dropdown-toggle text-muted" data-bs-toggle="dropdown" aria-expanded="false" name="sort">
+                        <option value="low">
+                            Lowest Price
+                        </option>
+                        <option value="high">
+                            Highest Price
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+
+{% endblock %}

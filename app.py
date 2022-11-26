@@ -73,6 +73,10 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', form = form)
 
+@app.route('/smartphone')
+def smartphone():
+    return render_template('smartphone.html')
+
 @app.route('/logout')
 def logout():
     session.pop('loggedin',None)
