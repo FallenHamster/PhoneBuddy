@@ -3,7 +3,170 @@
 {% block title %}Homepage {% endblock %}
 
 {% block main %}
-    <h1>Home Page</h1>
+<style>
+    /*Customized Content*/
+    body *{
+        transition-duration: 0.3s;
+    }
+    .first-ban, .sec-ban{
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        color:white;
+    }
+    .first-ban{
+        height: 700px;
+        background-image: url('static/banner-1-pic.jpg');
+        
+    }
+    .first-ban *, .sec-ban *{
+        display:inline-block;
+    }
+    .first-ban div{
+        width: 300px;
+        position: relative;
+        left:100px;
+        top: 280px;
+    }
+    .first-ban h3{
+        color: rgb(245, 248, 248);
+        font-weight: 600;
+        letter-spacing: 1.2px;
+    }
+    .first-ban p, .sec-ban p{
+        letter-spacing: 1.5px;
+        margin-bottom:10px;
+        font-family: arial;
+    }
+    .first-ban a, .sec-ban a{
+        color: rgb(245, 248, 248);
+        border: 2px solid lightgray;
+        font-size:20px;
+        padding:10px 35px;
+        background-color:rgba(225,225,225,0.4);
+        margin-top:10px;
+        border-radius: 25px;
+    }
+    .first-ban a:hover, .sec-ban a:hover{
+        border: 3px solid lightgray;
+        box-shadow: 0px 0px 10px white;
+        text-shadow: 0px 0px 5px lightgray;
+        font-size:22px;
+        padding:12px 40px;
+        background-color:rgba(225,225,225,0.1);
+        text-decoration:none;
+        color:white;
+    }
+    .sec-ban{
+        height: 700px;
+        background-image: url('static/banner-3-pic.jpg');
+        
+    }
+    .sec-ban div{
+        position:relative;
+        right:0px;
+        top: 200px;
+        padding: 0px;
+        width: 400px;
+        text-align: right;
+    }
+    .sec-ban h3{
+        color: rgb(245, 248, 248);
+        font-weight: 600;
+        letter-spacing: 1.2px;
+    }
+    .third-ban{
+        height: 700px;
+        display:flex;
+    }
+    .third-ban > *{
+        padding:0px;
+    }
+    .third-ban img{
+        height: 700px;
+        object-fit: fill;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+    .third-ban-desc{
+        text-align: center;
+    }
+    .third-ban-desc div{
+        display:inline-block;
+        position: relative;
+        margin: 50% 0;
+        text-align: center;
+    }
+    .third-ban-desc h3{
+        letter-spacing: 0.5px;
+        font-weight:600;
+        font-size:35px;
+    }
+    .third-ban-desc h5{
+        letter-spacing: 1.5px;
+    }
+    .third-ban-desc a{
+        color: rgb(245, 248, 248);
+        display: inline-block;
+        padding: 12px 20px;
+        background-color: black;
+        border-radius: 25px;
+        margin: 10px;
+    }
+    .third-ban-desc a:hover{
+        background-color: white;
+        color:black;
+        text-decoration: none;
+        box-shadow: 0px 0px 4px 2px gray;
+    }
+</style>
+
+
+<div class="cont-sec">
+    <!--1st Banner-->
+    <div class="first-ban">
+        <div>
+            <h3>iPhone14Pro</h3> 
+            <a href="">Explore</a>
+        </div>
+    </div>
+
+    <!--2nd Banner-->
+    <div class="sec-ban">
+        <div class="col-lg-3">
+        </div>
+        <div class="col-lg-3">
+        </div>
+        <div class="col-lg-2">
+        </div>
+        <div class="col-lg-3">
+            <div>
+                <h3>Samsung Galaxy Fold 4</h3>
+                
+                <a href="xx.xxx.xx">Explore</a>
+            </div>
+        </div>
+    </div>
+
+    <!--3rd Video banner-->
+    <div class="third-ban">
+        <img src="static\The-back-of-the-Google-Pixel-6a-held-in-a-persons-hand.jpg" class="col-lg-7 col-sm-0 col-0" style="padding:0px;">
+
+        <div class="third-ban-desc col-lg-5 col-sm-12 col-12">
+            <div>
+                <h3>NON-STOP</h3>
+                <h3 style="margin-bottom: 25px;">Learning</h3>
+                <h5>Curious About Smartphone ?</h5>
+                <h5>Want To Know What Your Ideal Phone?</h5>
+                <h5>Get Your Answers Here.</h5>
+                <a href="xx.xx+">Learn More</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     
 
 
@@ -16,6 +179,7 @@
     padding-bottom: 10px;
 }
 </style>
+
 {% with LoggedIn = get_flashed_messages(category_filter=["LoggedIn"]) %}
 {% if LoggedIn %}
     {%- for msg in LoggedIn %}
