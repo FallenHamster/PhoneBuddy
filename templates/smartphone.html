@@ -63,7 +63,6 @@
         <!--Searched Result-->
         <div class="d-flex">
             {% for smartphone in searchsmartphones %}
-            {% if smartphone == NULL %}
             <div class="row row-cols-4 mb-5">
                 <div class="card mr-5" style="width: 20rem;">
                     <a href="#">
@@ -82,11 +81,6 @@
             </div>
             <div class="col-md-auto">
             </div>
-            {% else %}
-            <div class="mt-5 d-flex justify-content-center align-items-center flex-grow-1">
-                <h4 class="display-5">No matched results.</h4>
-            </div>
-            {% endif %}
             {% endfor %}
         </div>
     </div>
