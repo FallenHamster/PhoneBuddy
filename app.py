@@ -97,6 +97,14 @@ def smartphone():
     conn.close()
     return render_template('smartphone.html', smartphones = smartphones)
 
+@app.route('/search',methods = ['GET','POST'])
+def search():
+    result = request.form.get('search')
+    conn = get_db_connection()
+    searchsmartphones = conn.execute("SELECT * FROM Smartphone WHERE brand = ? OR model = ?",(result,result)).fetchall()
+    return render_template('smartphone.html',searchsmartphones = searchsmartphones)
+    
+
 @app.route('/smartphonedetail')
 def smartphonedetail():
     return render_template('smartphonedetail.html')
@@ -109,6 +117,14 @@ def logout():
     message = "Visit Us Next Time!!"
     flash(message,"loggedout")
     return redirect(url_for('home'))
+
+@app.route('/edit',methods = ['GET','POST'])
+def edit():
+    id = session['id']
+    print(id)
+    conn = get_db_connection()
+    users = conn.execute('SELECT * FROM User WHERE id = ?',(id)).fetchall()
+    return render_template('edit.html',users = users)
 
 if __name__ == '__main__':
     app.run(debug = True)
