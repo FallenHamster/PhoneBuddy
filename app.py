@@ -32,6 +32,8 @@ def convertToBinaryData(filename):
         blobData = file.read()
     return blobData
 
+
+
 @app.route('/')
 def home():
     #If not loggedin, then redirect to login page
@@ -78,6 +80,15 @@ def register():
         flash(message,'registered')
         return redirect(url_for('login'))
     return render_template('register.html', form = form)
+
+@app.route('/edit')
+def edit():
+   id = session.id
+   conn = get_db_connection()
+   edit = conn.execute('SELECT * FROM User WHERE id = ?',(id)).fetchone()
+    
+   conn.close()
+   return render_template('edit.html', edit = edit)
 
 @app.route('/smartphone')
 def smartphone():
