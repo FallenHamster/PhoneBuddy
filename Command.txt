@@ -13,3 +13,9 @@ python -m flask run
 pip install flask
 pip install wtforms
 pip install flask_login
+
+To Do:
+Insert smartphone record
+
+To Fix:
+homepage - image, footer

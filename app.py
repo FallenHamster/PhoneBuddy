@@ -26,6 +26,12 @@ def get_db_connection():
     conn.row_factory = sql.Row
     return conn
 
+def convertToBinaryData(filename):
+    # Convert digital data to binary format
+    with open(filename, 'rb') as file:
+        blobData = file.read()
+    return blobData
+
 @app.route('/')
 def home():
     #If not loggedin, then redirect to login page
@@ -75,7 +81,14 @@ def register():
 
 @app.route('/smartphone')
 def smartphone():
-    return render_template('smartphone.html')
+    conn = get_db_connection()
+    smartphones = conn.execute('SELECT * FROM Smartphone').fetchall()
+    conn.close()
+    return render_template('smartphone.html', smartphones = smartphones)
+
+@app.route('/smartphonedetail')
+def smartphonedetail():
+    return render_template('smartphonedetail.html')
 
 @app.route('/logout')
 def logout():
