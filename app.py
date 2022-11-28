@@ -21,16 +21,24 @@ class LoginForm(Form):
     email = StringField('email',[validators.DataRequired()])
     password = PasswordField('password',[validators.DataRequired(),validators.Length(min = 6)])
 
+class EditForm(Form):
+    first_name = StringField('first_name',[validators.DataRequired()])
+    last_name = StringField('last_name',[validators.DataRequired()])
+    email = StringField('email',[validators.DataRequired()])
+    password = PasswordField('password',[validators.Length(min = 6), validators.DataRequired(), validators.EqualTo('password_confirmation', message = 'Password Must Match')])
+    password_confirmation = PasswordField('password_confirmation',[validators.DataRequired()])
+
 def get_db_connection():
     conn = sql.connect('database.db')
     conn.row_factory = sql.Row
     return conn
 
-def convertToBinaryData(filename):
-    # Convert digital data to binary format
-    with open(filename, 'rb') as file:
-        blobData = file.read()
-    return blobData
+def get_smartphone(smartphone_id):
+    conn = get_db_connection()
+    smartphone = conn.execute('SELECT * FROM Smartphone WHERE id = ?',
+                        (smartphone_id,)).fetchone()
+    conn.close()
+    return smartphone
 
 @app.route('/')
 def home():
@@ -94,9 +102,10 @@ def search():
     return render_template('smartphone.html',searchsmartphones = searchsmartphones)
     
 
-@app.route('/smartphonedetail')
-def smartphonedetail():
-    return render_template('smartphonedetail.html')
+@app.route('/smartphonedetail/<int:id>',methods = ['GET','POST'])
+def smartphonedetail(id):
+    smartphone = get_smartphone(id)
+    return render_template('smartphonedetail.html',smartphone = smartphone)
 
 @app.route('/logout')
 def logout():
@@ -110,10 +119,20 @@ def logout():
 @app.route('/edit',methods = ['GET','POST'])
 def edit():
     id = session['id']
-    print(id)
     conn = get_db_connection()
     users = conn.execute('SELECT * FROM User WHERE id = ?',(id)).fetchall()
-    return render_template('edit.html',users = users)
+
+    form = EditForm(request.form)
+    if request.method == 'POST' and form.validate():
+        hashed_pw = generate_password_hash(form.password.data,"sha256")
+        conn.execute('UPDATE User SET first_name = ?,last_name = ?,email = ?, password = ? WHERE id = ?',(form.first_name.data, form.last_name.data, form.email.data, hashed_pw,  id[0]))
+        conn.commit()
+        conn.close()
+        message = "Account detail has been modified successfully"
+        flash(message,'edited')
+        return redirect(url_for('edit'))
+    return render_template('edit.html',users = users, form = form)
+
 
 if __name__ == '__main__':
     app.run(debug = True)

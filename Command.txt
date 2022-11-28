@@ -19,4 +19,4 @@ Insert smartphone record
 
 To Fix:
 homepage - image, footer
-smartphone - search(when no result)
+smartphone - footer(when no result) 
