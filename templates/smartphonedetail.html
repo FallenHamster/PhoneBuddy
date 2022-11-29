@@ -4,17 +4,46 @@
 
 {% block main %}
 
-<div class="container">
+<style>
+    .black{
+        background-color: black;
+    }
+</style>
+<div class="container mt-5">
     <div class="row">
-        <div class="col-sm">
-            <img src="{{ url_for('static',filename = smartphone['image_URL']) }}" class="card-img-top" style="height: 250px;">
+        <div class="col mr-3">
+            <img src="{{ url_for('static',filename = smartphone['image_URL']) }}" class="card-img-top" style="height: 350px;">
         </div>
-        <div class="col-sm">
-        <h2 class="fw-bold">Specifications</h2>
-        </div>
-        <div class="col-sm">
+
+        <div class="col-7">
+            <h2 class="fw-bold">{{ smartphone['brand'] }} {{ smartphone['model'] }}</h2>
+            <h5 class="text-muted text-justify">{{ smartphone['description'] }}</h5>
         </div>
     </div>
+    <hr>
+    <style>
+        .font-size{
+            font-size: 18pt;
+        }
+
+        hr {
+        position: relative;
+        top: 20px;
+        border: none;
+        height: 3px;
+        background: black;
+        margin-bottom: 50px;
+        }
+    </style>
+    <h2 class="mb-3">Specifications</h2>
+    <p class="font-size"><span class="font-weight-bold">Processor : </span>{{ smartphone['processor'] }}</p>
+    <p class="font-size"><span class="font-weight-bold">Storage and Ram : </span>{{ smartphone['ram'] }}</p>
+    <p class="font-size"><span class="font-weight-bold">Colour : </span>{{ smartphone['colour'] }}</p>
+    <p class="font-size"><span class="font-weight-bold">Battery : </span>{{ smartphone['battery'] }}</p>
+    <p class="font-size"><span class="font-weight-bold">Price : </span>RM{{ smartphone['lowprice'] }} - {{ smartphone['highprice'] }}</p>
+    <p class="font-size"><span class="font-weight-bold">Screen Size : </span>{{ smartphone['screenSize'] }}</p>
+    <p class="font-size"><span class="font-weight-bold">Refresh Rate : </span>{{ smartphone['refreshRate'] }}</p>
+    <hr>
 </div>
 
 {% endblock %}

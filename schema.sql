@@ -42,19 +42,18 @@ CREATE TABLE Smartphone (
     highprice INTEGER NOT NULL,
     screenSize STRING NOT NULL,
     refreshRate STRING NOT NULL,
-    OS STRING NOT NULL,
     description STRING NOT NULL,
     image_URL STRING NOT NULL
 );
 
-INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highprice,screenSize,refreshRate,OS,description,image_URL) VALUES 
+INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highprice,screenSize,refreshRate,description,image_URL) VALUES 
 ('Apple','Iphone 13','Hexa-core (2x3.23 GHz Avalanche + 4x1.82 GHz Blizzard)','128GB 4GB RAM, 256GB 4GB RAM, 512GB 4GB RAM','Gold, Silver, Sierra Blue',
-'Li-Ion 3240 mAh', 3639, 4199,'6.1 inches','60Hz','iOS 15','The iPhone 13 display has rounded corners that 
+'Li-Ion 3240 mAh', 3639, 4199,'6.1 inches','60Hz','The iPhone 13 display has rounded corners that 
 follow a beautiful curved design, and these corners are within a standard rectangle. When measured as a standard 
 rectangular shape, the screen is 6.06 inches diagonally (actual viewable area is less).','./iphone13.webp');
-INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highprice,screenSize,refreshRate,OS,description,image_URL) VALUES 
+INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highprice,screenSize,refreshRate,description,image_URL) VALUES 
 ('Samsung','Samsung Galaxy S21 5G','Octa-core (1x2.9 GHz Cortex-X1 & 3x2.80 GHz Cortex-A78 & 4x2.2 GHz Cortex-A55)','128GB 8GB RAM, 256GB 8GB RAM',
-'Phantom Gray, Phantom White, Phantom Violet, Phantom Pink','Li-Ion 4000 mAh', 2199, 3699,'6.2 inches','120Hz','Android 11','The Samsung Galaxy S21 
+'Phantom Gray, Phantom White, Phantom Violet, Phantom Pink','Li-Ion 4000 mAh', 2199, 3699,'6.2 inches','120Hz','The Samsung Galaxy S21 
 5G is a smartphone that was tested with the Android 11 operating system. This model weighs 6 ounces, has a 6.2 inch display, 12-megapixel main camera, 
 and 10-megapixel selfie camera. It comes with 8GB of RAM. It was tested with 128GB of storage.','./samsung-galaxy-S21-5G.jpg');
 
