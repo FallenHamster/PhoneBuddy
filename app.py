@@ -1,6 +1,6 @@
 import sqlite3 as sql
 from flask import Flask, render_template, redirect, url_for, request, flash, session
-from wtforms import StringField, BooleanField, PasswordField, validators
+from wtforms import StringField, BooleanField, PasswordField, validators, HiddenField
 from flask_wtf import Form
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager
@@ -27,6 +27,11 @@ class EditForm(Form):
     email = StringField('email',[validators.DataRequired()])
     password = PasswordField('password',[validators.Length(min = 6), validators.DataRequired(), validators.EqualTo('password_confirmation', message = 'Password Must Match')])
     password_confirmation = PasswordField('password_confirmation',[validators.DataRequired()])
+
+class ReviewForm(Form):
+    title = StringField('title',[validators.DataRequired()])
+    content = StringField('content',[validators.DataRequired()])
+    rating = HiddenField('rating',[validators.DataRequired()])
 
 def get_db_connection():
     conn = sql.connect('database.db')
@@ -105,7 +110,13 @@ def search():
 @app.route('/smartphonedetail/<int:id>',methods = ['GET','POST'])
 def smartphonedetail(id):
     smartphone = get_smartphone(id)
-    return render_template('smartphonedetail.html',smartphone = smartphone)
+    session['smartphoneid'] = id
+    conn = get_db_connection()
+    reviews = conn.execute('SELECT * FROM Review WHERE smartphoneID = ?',(id,)).fetchall()
+    users = conn.execute('SELECT User.first_name,User.last_name FROM User INNER JOIN Review ON User.id = Review.userID AND Review.smartphoneID = ?',(id,)).fetchall()
+    conn.close()
+    data = zip(reviews, users)
+    return render_template('smartphonedetail.html',smartphone = smartphone, data = data)
 
 @app.route('/logout')
 def logout():
@@ -133,6 +144,22 @@ def edit():
         return redirect(url_for('edit'))
     return render_template('edit.html',users = users, form = form)
 
+@app.route('/review', methods = ['GET','POST'])
+def review():
+    smartphoneID = session['smartphoneid']
+    id = session['id']
+    conn = get_db_connection()
+    model = conn.execute('SELECT model FROM Smartphone WHERE id = ?',(smartphoneID,)).fetchone()
+    form = ReviewForm(request.form)
+    if request.method == 'POST' and form.validate():
+        with sql.connect("database.db") as conn:
+            cur = conn.cursor()
+            cur.execute("INSERT INTO Review (title, content, rating, smartphoneID, userID) VALUES (?,?,?,?,?)",(form.title.data, form.content.data, form.rating.data, smartphoneID, id[0]))
+            conn.commit()
+            message = "Review has been added successfully"
+            flash(message,'review')
+        return redirect(url_for('smartphone'))
+    return render_template('review.html', form = form, model = model)
 
 if __name__ == '__main__':
     app.run(debug = True)

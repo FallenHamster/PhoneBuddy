@@ -20,8 +20,9 @@ DROP TABLE IF EXISTS Review;
 
 CREATE TABLE Review (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    description STRING NOT NULL,
-    rating STRING NOT NULL,
+    title STRING NOT NULL,
+    content STRING NOT NULL,
+    rating FLOAT NOT NULL,
     smartphoneID INTEGER NOT NULL,
     userID INTEGER NOT NULL,
     FOREIGN KEY(smartphoneID) REFERENCES Smartphone(id),

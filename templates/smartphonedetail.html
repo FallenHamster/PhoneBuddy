@@ -8,9 +8,19 @@
     .black{
         background-color: black;
     }
-
     .black-heart{
         color: black;
+    }
+    .font-size{
+        font-size: 18pt;
+    }
+    .line{
+        position: relative;
+        top: 20px;
+        border: none;
+        height: 3px;
+        background: black;
+        margin-bottom: 50px;
     }
 </style>
 <div class="container mt-5">
@@ -18,7 +28,6 @@
         <div class="col mr-3">
             <img src="{{ url_for('static',filename = smartphone['image_URL']) }}" class="card-img-top" style="height: 350px;">
         </div>
-
         <div class="col-7">
             <div class="d-flex justify-content-between">
                 <h2 class="fw-bold">{{ smartphone['brand'] }} {{ smartphone['model'] }}</h2>
@@ -29,21 +38,9 @@
             <h5 class="text-muted text-justify">{{ smartphone['description'] }}</h5>
         </div>
     </div>
-    <hr>
-    <style>
-        .font-size{
-            font-size: 18pt;
-        }
 
-        hr {
-        position: relative;
-        top: 20px;
-        border: none;
-        height: 3px;
-        background: black;
-        margin-bottom: 50px;
-        }
-    </style>
+    <div class ="line"></div>
+
     <h2 class="mb-3">Specifications</h2>
     <p class="font-size"><span class="font-weight-bold">Processor : </span>{{ smartphone['processor'] }}</p>
     <p class="font-size"><span class="font-weight-bold">Storage and Ram : </span>{{ smartphone['ram'] }}</p>
@@ -52,7 +49,38 @@
     <p class="font-size"><span class="font-weight-bold">Price : </span>RM{{ smartphone['lowprice'] }} - {{ smartphone['highprice'] }}</p>
     <p class="font-size"><span class="font-weight-bold">Screen Size : </span>{{ smartphone['screenSize'] }}</p>
     <p class="font-size"><span class="font-weight-bold">Refresh Rate : </span>{{ smartphone['refreshRate'] }}</p>
-    <hr>
-</div>
 
+    <div class ="line"></div>
+
+    <div class="d-flex justify-content-between mb-5">
+        <h2>Reviews</h2>
+        <a class="btn btn-primary pt-2" href="/review" role="button">Post a review</a>
+    </div>
+
+    {% for review, user in data %}
+    <div class="review-list">
+        <h4>{{ user['first_name'] }} {{ user['last_name'] }}</h4>
+        <div class="d-flex justify-content-between">
+            <h4>{{ review['title'] }}</h4>
+            <span class="gig-rating text-body-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15"  style="color:#ffb33e;">
+                    <path
+                        fill="currentColor"
+                        d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"
+                    ></path>
+                </svg>
+                <a style="color:#ffb33e;">{{ review['rating'] }}</a>
+            </span>
+        </div>
+        <div class="review-description">
+            <p>
+                {{ review['content'] }}
+            </p>
+        </div>
+    </div>
+
+    <hr>
+    {% endfor %}
+
+</div>
 {% endblock %}
