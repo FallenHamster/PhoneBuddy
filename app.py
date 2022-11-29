@@ -92,20 +92,16 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', form = form)
 
-@app.route('/smartphone')
+@app.route('/smartphone', methods = ['GET','POST'])
 def smartphone():
+    result = request.form.get('search')
     conn = get_db_connection()
     smartphones = conn.execute('SELECT * FROM Smartphone').fetchall()
+    if request.method == 'POST':
+       smartphones = conn.execute("SELECT * FROM Smartphone WHERE brand = ? OR model = ?",(result,result)).fetchall()
     conn.close()
     return render_template('smartphone.html', smartphones = smartphones)
 
-@app.route('/search',methods = ['GET','POST'])
-def search():
-    result = request.form.get('search')
-    conn = get_db_connection()
-    searchsmartphones = conn.execute("SELECT * FROM Smartphone WHERE brand = ? OR model = ?",(result,result)).fetchall()
-    return render_template('smartphone.html',searchsmartphones = searchsmartphones)
-    
 
 @app.route('/smartphonedetail/<int:id>',methods = ['GET','POST'])
 def smartphonedetail(id):

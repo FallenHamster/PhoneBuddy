@@ -9,10 +9,10 @@
     }
 </style>
 
-<main class="position-relative">
+<main class="position-relative vh-100">
     <div class="container">
         <h1 class="fw-bold text-center my-4">Smartphone</h1>
-        <form action="/search" method="POST">
+        <form action="/smartphone" method="POST">
             <div class="mb-5 d-flex position-relative">
                 <!-- Search -->
                 <div class="input-group w-50 mx-auto">
@@ -32,10 +32,10 @@
             </div>
         </form>
 
+        {% if smartphones %}
         <!--Display All Smartphone-->
         <div class="d-flex">
             {% for smartphone in smartphones %}
-            {% if smartphone %}
             <div class="row row-cols-4 mb-5">
                 <div class="card mr-5" style="width: 20rem;">
                     <a href="{{ url_for('smartphonedetail', id=smartphone['id']) }}">
@@ -54,39 +54,14 @@
             </div>
             <div class="col-md-auto">
             </div>
-            {% endif %}
             {% endfor %}
         </div>
-
-        <!--Searched Result-->
-        <div class="d-flex">
-            {% for smartphone in searchsmartphones %}
-            {% if searchsmartphones %}
-            <div class="row row-cols-4 mb-5">
-                <div class="card mr-5" style="width: 20rem;">
-                    <a href="{{ url_for('smartphonedetail', id=smartphone['id']) }}">
-                        <img src="{{ url_for('static',filename = smartphone['image_URL']) }}" class="card-img-top" style="height: 250px;">
-                    </a>
-                    <div class="card-body">
-                        <a href="{{ url_for('smartphonedetail', id=smartphone['id']) }}">
-                            <h5 class="card-title">{{ smartphone['model'] }}</h5>
-                        </a>
-                        <div class="mt-5 d-flex justify-content-between">
-                            <p class="text-muted">{{ smartphone['brand'] }}</p>
-                            <p>RM{{ smartphone['lowprice'] }} - {{ smartphone['highprice'] }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-auto">
-            </div>
-            {% else %}
+        {% else %}
             <div class="mt-5 d-flex justify-content-center align-items-center flex-grow-1">
                 <h4 class="display-5">No matched results.</h4>
             </div>
-            {% endif %}
-            {% endfor %}
-        </div>
+        {% endif %}
+        
     </div>
 </main>
 
