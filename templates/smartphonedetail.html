@@ -8,6 +8,10 @@
     .black{
         background-color: black;
     }
+
+    .black-heart{
+        color: black;
+    }
 </style>
 <div class="container mt-5">
     <div class="row">
@@ -16,7 +20,12 @@
         </div>
 
         <div class="col-7">
-            <h2 class="fw-bold">{{ smartphone['brand'] }} {{ smartphone['model'] }}</h2>
+            <div class="d-flex justify-content-between">
+                <h2 class="fw-bold">{{ smartphone['brand'] }} {{ smartphone['model'] }}</h2>
+                <button type="submit" class="btn btn-outline-danger nav-link mb-3" href="#">
+                    <i class="bi bi-suit-heart"></i>
+                </button>
+            </div>
             <h5 class="text-muted text-justify">{{ smartphone['description'] }}</h5>
         </div>
     </div>

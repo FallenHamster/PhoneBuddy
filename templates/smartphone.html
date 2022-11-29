@@ -65,11 +65,11 @@
             {% for smartphone in searchsmartphones %}
             <div class="row row-cols-4 mb-5">
                 <div class="card mr-5" style="width: 20rem;">
-                    <a href="#">
+                    <a href="{{ url_for('smartphonedetail', id=smartphone['id']) }}">
                         <img src="{{ url_for('static',filename = smartphone['image_URL']) }}" class="card-img-top" style="height: 250px;">
                     </a>
                     <div class="card-body">
-                        <a href="#">
+                        <a href="{{ url_for('smartphonedetail', id=smartphone['id']) }}">
                             <h5 class="card-title">{{ smartphone['model'] }}</h5>
                         </a>
                         <div class="mt-5 d-flex justify-content-between">

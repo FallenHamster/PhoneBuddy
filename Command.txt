@@ -18,5 +18,5 @@ To Do:
 Insert smartphone record
 
 To Fix:
-homepage - image, footer
+homepage - footer
 smartphone - footer(when no result) 
