@@ -105,14 +105,19 @@ def smartphone():
 
 @app.route('/smartphonedetail/<int:id>',methods = ['GET','POST'])
 def smartphonedetail(id):
-    smartphone = get_smartphone(id)
-    session['smartphoneid'] = id
-    conn = get_db_connection()
-    reviews = conn.execute('SELECT * FROM Review WHERE smartphoneID = ?',(id,)).fetchall()
-    users = conn.execute('SELECT User.first_name,User.last_name FROM User INNER JOIN Review ON User.id = Review.userID AND Review.smartphoneID = ?',(id,)).fetchall()
-    conn.close()
-    data = zip(reviews, users)
-    return render_template('smartphonedetail.html',smartphone = smartphone, data = data)
+    if session.get('loggedin') == True:
+        smartphone = get_smartphone(id)
+        session['smartphoneid'] = id
+        conn = get_db_connection()
+        reviews = conn.execute('SELECT * FROM Review WHERE smartphoneID = ?',(id,)).fetchall()
+        users = conn.execute('SELECT User.first_name,User.last_name FROM User INNER JOIN Review ON User.id = Review.userID AND Review.smartphoneID = ?',(id,)).fetchall()
+        conn.close()
+        data = zip(reviews, users)
+        return render_template('smartphonedetail.html',smartphone = smartphone, data = data)
+    else:
+        message = "Unauthorized Access! Please login to continue."
+        flash(message,'InvalidLogin')
+        return redirect('/login')
 
 @app.route('/logout')
 def logout():
@@ -125,37 +130,47 @@ def logout():
 
 @app.route('/edit',methods = ['GET','POST'])
 def edit():
-    id = session['id']
-    conn = get_db_connection()
-    users = conn.execute('SELECT * FROM User WHERE id = ?',(id)).fetchall()
+    if session.get('loggedin') == True:
+        id = session['id']
+        conn = get_db_connection()
+        users = conn.execute('SELECT * FROM User WHERE id = ?',(id)).fetchall()
 
-    form = EditForm(request.form)
-    if request.method == 'POST' and form.validate():
-        hashed_pw = generate_password_hash(form.password.data,"sha256")
-        conn.execute('UPDATE User SET first_name = ?,last_name = ?,email = ?, password = ? WHERE id = ?',(form.first_name.data, form.last_name.data, form.email.data, hashed_pw,  id[0]))
-        conn.commit()
-        conn.close()
-        message = "Account detail has been modified successfully"
-        flash(message,'edited')
-        return redirect(url_for('edit'))
-    return render_template('edit.html',users = users, form = form)
+        form = EditForm(request.form)
+        if request.method == 'POST' and form.validate():
+            hashed_pw = generate_password_hash(form.password.data,"sha256")
+            conn.execute('UPDATE User SET first_name = ?,last_name = ?,email = ?, password = ? WHERE id = ?',(form.first_name.data, form.last_name.data, form.email.data, hashed_pw,  id[0]))
+            conn.commit()
+            conn.close()
+            message = "Account detail has been modified successfully"
+            flash(message,'edited')
+            return redirect(url_for('edit'))
+        return render_template('edit.html',users = users, form = form)
+    else:
+        message = "Unauthorized Access! Please login to continue."
+        flash(message,'InvalidLogin')
+        return redirect('/login')
 
 @app.route('/review', methods = ['GET','POST'])
 def review():
-    smartphoneID = session['smartphoneid']
-    id = session['id']
-    conn = get_db_connection()
-    model = conn.execute('SELECT model FROM Smartphone WHERE id = ?',(smartphoneID,)).fetchone()
-    form = ReviewForm(request.form)
-    if request.method == 'POST' and form.validate():
-        with sql.connect("database.db") as conn:
-            cur = conn.cursor()
-            cur.execute("INSERT INTO Review (title, content, rating, smartphoneID, userID) VALUES (?,?,?,?,?)",(form.title.data, form.content.data, form.rating.data, smartphoneID, id[0]))
-            conn.commit()
-            message = "Review has been added successfully"
-            flash(message,'review')
-        return redirect(url_for('smartphone'))
-    return render_template('review.html', form = form, model = model)
+    if session.get('loggedin') == True:   
+        smartphoneID = session['smartphoneid']
+        id = session['id']
+        conn = get_db_connection()
+        model = conn.execute('SELECT model FROM Smartphone WHERE id = ?',(smartphoneID,)).fetchone()
+        form = ReviewForm(request.form)
+        if request.method == 'POST' and form.validate():
+            with sql.connect("database.db") as conn:
+                cur = conn.cursor()
+                cur.execute("INSERT INTO Review (title, content, rating, smartphoneID, userID) VALUES (?,?,?,?,?)",(form.title.data, form.content.data, form.rating.data, smartphoneID, id[0]))
+                conn.commit()
+                message = "Review has been added successfully"
+                flash(message,'review')
+            return redirect(url_for('smartphone'))
+        return render_template('review.html', form = form, model = model)
+    else:
+        message = "Unauthorized Access! Please login to continue."
+        flash(message,'InvalidLogin')
+        return redirect('/login')
 
 if __name__ == '__main__':
     app.run(debug = True)

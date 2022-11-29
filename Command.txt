@@ -16,7 +16,7 @@ pip install flask_login
 
 To Do:
 Insert smartphone record
+Favourite page 
 
 To Fix:
-homepage - footer
-smartphone - footer(when no result) 
+Filter By
