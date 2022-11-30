@@ -9,7 +9,7 @@
     }
 </style>
 
-<main class="position-relative vh-100">
+<main class="position-relative">
     <div class="container">
         <h1 class="fw-bold text-center my-4">Smartphone</h1>
         <form action="/smartphone" method="POST">
@@ -19,7 +19,7 @@
                     <input class="form-control py-2" placeholder="Search for smartphone" name="search" id="search"/>
                     <button type="submit" class="btn btn-secondary text-muted">Search</button>
                 </div>
-                <div class="dropdown right">
+                <!--<div class="dropdown right">
                     <select id="sortDropdown" class="btn btn-secondary dropdown-toggle text-muted" data-bs-toggle="dropdown" aria-expanded="false" name="sort">
                         <option value="low">
                             Lowest Price
@@ -28,16 +28,17 @@
                             Highest Price
                         </option>
                     </select>
-                </div>
+                </div>-->
             </div>
         </form>
 
         {% if smartphones %}
         <!--Display All Smartphone-->
         <div class="d-flex">
+            <div class="row row-cols-3">
             {% for smartphone in smartphones %}
-            <div class="row row-cols-4 mb-5">
-                <div class="card mr-5" style="width: 20rem;">
+            <div class="col mb-5 ">
+                <div class="card " style="width: 20rem;">
                     <a href="{{ url_for('smartphonedetail', id=smartphone['id']) }}">
                         <img src="{{ url_for('static',filename = smartphone['image_URL']) }}" class="card-img-top" style="height: 250px;">
                     </a>
@@ -52,9 +53,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-auto">
-            </div>
             {% endfor %}
+            </div>
         </div>
         {% else %}
             <div class="mt-5 d-flex justify-content-center align-items-center flex-grow-1">

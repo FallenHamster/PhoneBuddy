@@ -1,6 +1,6 @@
 import sqlite3 as sql
 from flask import Flask, render_template, redirect, url_for, request, flash, session
-from wtforms import StringField, BooleanField, PasswordField, validators, HiddenField
+from wtforms import StringField, BooleanField, PasswordField, validators, HiddenField, IntegerField
 from flask_wtf import Form
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager
@@ -33,6 +33,20 @@ class ReviewForm(Form):
     content = StringField('content',[validators.DataRequired()])
     rating = HiddenField('rating',[validators.DataRequired()])
 
+class addSmartphoneForm(Form):
+    brand = StringField('brand',[validators.DataRequired()])
+    model = StringField('model',[validators.DataRequired()])
+    processor = StringField('processor',[validators.DataRequired()])
+    ram = StringField('ram',[validators.DataRequired()])
+    colour = StringField('colour',[validators.DataRequired()])
+    battery = StringField('battery',[validators.DataRequired()])
+    lowprice = IntegerField('lowprice',[validators.DataRequired()])
+    highprice = IntegerField('highprice',[validators.DataRequired()])
+    screenSize = StringField('screenSize',[validators.DataRequired()])
+    refreshRate = StringField('refreshRate',[validators.DataRequired()])
+    description = StringField('description',[validators.DataRequired()])
+    image_URL = StringField('image_URL',[validators.DataRequired()])
+
 def get_db_connection():
     conn = sql.connect('database.db')
     conn.row_factory = sql.Row
@@ -51,6 +65,8 @@ def home():
     #if session.get('loggedin') == False:
         #return redirect('/login')
     return render_template('home.html')
+
+#User
 
 @app.route('/login', methods = ['GET','POST'])
 def login():
@@ -92,48 +108,6 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', form = form)
 
-@app.route('/smartphone', methods = ['GET','POST'])
-def smartphone():
-    result = request.form.get('search')
-    conn = get_db_connection()
-    smartphones = conn.execute('SELECT * FROM Smartphone').fetchall()
-    if request.method == 'POST':
-       smartphones = conn.execute("SELECT * FROM Smartphone WHERE brand = ? OR model = ?",(result,result)).fetchall()
-    conn.close()
-    return render_template('smartphone.html', smartphones = smartphones)
-
-
-@app.route('/smartphonedetail/<int:id>',methods = ['GET','POST'])
-def smartphonedetail(id):
-    if session.get('loggedin') == True:
-        smartphone = get_smartphone(id)
-        session['smartphoneid'] = id
-        userid = session['id']
-        conn = get_db_connection()
-        reviews = conn.execute('SELECT * FROM Review WHERE smartphoneID = ?',(id,)).fetchall()
-        users = conn.execute('SELECT User.first_name,User.last_name FROM User INNER JOIN Review ON User.id = Review.userID AND Review.smartphoneID = ?',(id,)).fetchall()
-        data = zip(reviews, users)
-        if request.method == 'POST':
-            if request.form['favourite'] == 'favourite':
-                with sql.connect("database.db") as conn:
-                    cur = conn.cursor()
-                    existed = cur.execute('SELECT * FROM Favourite WHERE userID = ? AND smartphoneID = ?',(userid[0],id)).fetchall()
-                    if existed:
-                        message = "Favourites has already existed."
-                        flash(message,'Existed')
-                        return render_template('smartphonedetail.html', smartphone = smartphone, data = data)
-                    cur.execute('INSERT INTO Favourite (userID, smartphoneID) VALUES (?, ?)',(userid[0],id))
-                    cur.close()
-                    message = "Smartphone has been added to favourite." 
-                    flash(message,'Added')
-                    return render_template('smartphonedetail.html', smartphone = smartphone, data = data)
-            return render_template('smartphonedetail.html', smartphone = smartphone, data = data)
-        return render_template('smartphonedetail.html',smartphone = smartphone, data = data)
-    else:
-        message = "Unauthorized Access! Please login to continue."
-        flash(message,'InvalidLogin')
-        return redirect('/login')
-
 @app.route('/logout')
 def logout():
     session.pop('loggedin',None)
@@ -167,6 +141,49 @@ def edit():
         flash(message,'InvalidLogin')
         return redirect('/login')
 
+#Smartphone
+
+@app.route('/smartphone', methods = ['GET','POST'])
+def smartphone():
+    result = request.form.get('search')
+    conn = get_db_connection()
+    smartphones = conn.execute('SELECT * FROM Smartphone').fetchall()
+    if request.method == 'POST':
+       smartphones = conn.execute("SELECT * FROM Smartphone WHERE brand = ? OR model = ?",(result,result)).fetchall()
+    conn.close()
+    return render_template('smartphone.html', smartphones = smartphones)
+
+@app.route('/smartphonedetail/<int:id>',methods = ['GET','POST'])
+def smartphonedetail(id):
+    if session.get('loggedin') == True:
+        smartphone = get_smartphone(id)
+        session['smartphoneid'] = id
+        userid = session['id']
+        conn = get_db_connection()
+        reviews = conn.execute('SELECT * FROM Review WHERE smartphoneID = ?',(id,)).fetchall()
+        users = conn.execute('SELECT User.first_name,User.last_name FROM User INNER JOIN Review ON User.id = Review.userID AND Review.smartphoneID = ?',(id,)).fetchall()
+        data = zip(reviews, users)
+        if request.method == 'POST':
+            if request.form['favourite'] == 'favourite':
+                with sql.connect("database.db") as conn:
+                    cur = conn.cursor()
+                    existed = cur.execute('SELECT * FROM Favourite WHERE userID = ? AND smartphoneID = ?',(userid[0],id)).fetchall()
+                    if existed:
+                        message = "Favourites has already existed."
+                        flash(message,'Existed')
+                        return render_template('smartphonedetail.html', smartphone = smartphone, data = data)
+                    cur.execute('INSERT INTO Favourite (userID, smartphoneID) VALUES (?, ?)',(userid[0],id))
+                    cur.close()
+                    message = "Smartphone has been added to favourite." 
+                    flash(message,'Added')
+                    return render_template('smartphonedetail.html', smartphone = smartphone, data = data)
+            return render_template('smartphonedetail.html', smartphone = smartphone, data = data)
+        return render_template('smartphonedetail.html',smartphone = smartphone, data = data)
+    else:
+        message = "Unauthorized Access! Please login to continue."
+        flash(message,'InvalidLogin')
+        return redirect('/login')
+
 @app.route('/review', methods = ['GET','POST'])
 def review():
     if session.get('loggedin') == True:   
@@ -191,22 +208,62 @@ def review():
 
 @app.route('/favourite', methods = ['GET','POST'])
 def favourite():
-    userid = session['id']
+    if session.get('loggedin') == True:  
+        userid = session['id']
+        conn = get_db_connection()
+        if request.method == 'POST':
+            if request.form.get('remove') == 'remove':
+                favId = request.form.get('id')
+                conn.execute('DELETE FROM Favourite WHERE id = ?',(favId,))
+                conn.commit()
+                message = "The favourite has been removed successfully"
+                flash(message,'removedOne')
+            if request.form.get('reset') == 'reset':
+                conn.execute('DELETE FROM Favourite WHERE userID = ?',(userid))
+                conn.commit()
+                message = "All favourites has been removed successfully"
+                flash(message,'removed')
+        favourites = conn.execute('SELECT Favourite.id, Favourite.smartphoneID, Smartphone.brand, Smartphone.model, Smartphone.lowprice, Smartphone.highprice, Smartphone.image_URL FROM Favourite INNER JOIN Smartphone ON Favourite.userID = ? AND Favourite.smartphoneID = Smartphone.id',(userid)).fetchall()
+        return render_template('favourite.html',favourites = favourites)
+    else:
+        message = "Unauthorized Access! Please login to continue."
+        flash(message,'InvalidLogin')
+        return redirect('/login')
+
+#Admin Side
+#Smartphone CRUD
+
+@app.route('/addSmartphone',methods=['GET','POST'])
+def addSmartphone():
+    form = addSmartphoneForm(request.form)
+    if request.method == 'POST' and form.validate():
+        with sql.connect("database.db") as conn:
+            cur = conn.cursor()
+            cur.execute("INSERT INTO Smartphone (brand, model, processor, ram, colour, battery, lowprice, highprice, screenSize, refreshRate, description, image_URL) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",(form.brand.data, form.model.data, form.processor.data, form.ram.data, form.colour.data, form.battery.data, form.lowprice.data, form.highprice.data, form.screenSize.data, form.refreshRate.data, form.description.data, form.image_URL.data, ))
+
+            conn.commit()
+        message =  "New Smartphone has been added successfully"
+        flash(message,'registered')
+        return redirect('/login')
+    return render_template('addSmartphone.html', form = form)
+
+@app.route('/editSmartphone',methods = ['GET','POST'])
+def editSmartphone():
+    id = session['smartphoneid']
     conn = get_db_connection()
-    if request.method == 'POST':
-        if request.form.get('remove') == 'remove':
-            favId = request.form.get('id')
-            conn.execute('DELETE FROM Favourite WHERE id = ?',(favId,))
-            conn.commit()
-            message = "The favourite has been removed successfully"
-            flash(message,'removedOne')
-        if request.form.get('reset') == 'reset':
-            conn.execute('DELETE FROM Favourite WHERE userID = ?',(userid))
-            conn.commit()
-            message = "All favourites has been removed successfully"
-            flash(message,'removed')
-    favourites = conn.execute('SELECT Favourite.id, Favourite.smartphoneID, Smartphone.brand, Smartphone.model, Smartphone.lowprice, Smartphone.highprice, Smartphone.image_URL FROM Favourite INNER JOIN Smartphone ON Favourite.userID = ? AND Favourite.smartphoneID = Smartphone.id',(userid)).fetchall()
-    return render_template('favourite.html',favourites = favourites)
+    smartphones = conn.execute('SELECT * FROM Smartphone WHERE id = ?',(id)).fetchall()
+
+    form = addSmartphoneForm(request.form)
+    if request.method == 'POST' and form.validate():
+
+        conn.execute('UPDATE Smartphone SET brand = ?,model = ?,processor = ?, ram = ?, colour = ?, battery = ?, lowprice = ?, highprice = ?, screenSize = ?, refreshRate = ?, description = ?, image_URL = ? WHERE id = ?',(form.brand.data, form.model.data, form.processor.data, form.ram.data, form.colour.data, form.battery.data, form.lowprice.data, form.highprice.data, form.screenSize.data, form.refreshRate.data, form.description.data, form.image_URL.data,id[0]))
+        conn.commit()
+        conn.close()
+        message = "Smartphone detail has been modified successfully"
+        flash(message,'edited')
+        return redirect('/login')
+    return render_template('editSmartphone.html',smartphones = smartphones, form = form)
+
 
 if __name__ == '__main__':
     app.run(debug = True)

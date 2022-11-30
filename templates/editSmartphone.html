@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+
+{% block title %}PhoneBuddy - EditSmartphone {% endblock %}
+
+{% block main %}
+
+<div class="m-auto py-5" style="min-width: 500px;">
+    <form action="/editSmartphone" method="POST">
+        <div>
+            <h2 class="text-center fw-bold fs-1 mb-4 p-0 m-0">PhoneBuddy</h2>
+
+            <h3 class="text-center fw-light mb-4">Edit Smartphone</h3>
+            {% for smartphone in smartphones %}
+            <div class="form-floating mb-4">
+                <label for="brand">Brand</label>
+                <input id="brand" name="brand" class="form-control" type="text" placeholder="Brand" value= "{{ smartphone[1] }}"/>
+                {% if form.brand.errors %}
+                    <ul class="errors text-danger">
+                    {% for error in form.brand.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="model">Model</label>
+                <input id="model" name="model" class="form-control" type="text" placeholder="Model" value= "{{ smartphone[2] }}"/>
+                {% if form.model.errors %}
+                    <ul class="errors text-danger">
+                    {% for error in form.model.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="processor">Processor</label>
+                <input id="processor" name="processor" class="form-control" type="text" placeholder="Processor" value= "{{ smartphone[3] }}" />
+                {% if form.processor.errors %}
+                    <ul class="errors text-danger">
+                    {% for error in form.processor.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="ram">Ram</label>
+                <input id="ram" name="ram" class="form-control" type="text" placeholder="Ram" value= "{{ smartphone[4] }}" />
+                {% if form.ram.errors %}
+                    <ul class="errors text-danger">
+                    {% for error in form.ram.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="colour">Colour</label>
+                <input id="colour" name="colour" class="form-control" type="text" placeholder="Colour" value= "{{ smartphone[5] }}" />
+                {% if form.colour.errors %}
+                    <ul class="errors text-danger">
+                    {% for error in form.colour.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="battery">Battery</label>
+                <input id="battery" name="battery" class="form-control" type="text" placeholder="Battery" value= "{{ smartphone[6] }}"/>
+                {% if form.battery.errors %}
+                    <ul class="errors text-danger">
+                    {% for error in form.battery.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="lowprice">Low Price</label>
+                <input id="lowprice" name="lowprice" class="form-control" type="text" placeholder="Low Price" value= "{{ smartphone[7] }}"/>
+                {% if form.lowprice.errors %}
+                    <ul class="errors text-danger">
+                    {% for error in form.lowprice.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="highprice">High Price</label>
+                <input id="highprice" name="highprice" class="form-control" type="text" placeholder="High Price" value= "{{ smartphone[8] }}"/>
+                {% if form.highprice.errors %}
+                    <ul class="errors text-danger">
+                    {% for error in form.highprice.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="screenSize">Screen Size</label>
+                <input id="screenSize" name="screenSize" class="form-control" type="text" placeholder="screenSize" value= "{{ smartphone[9] }}" />
+                {% if form.screenSize.errors %}
+                    <ul class="errors text-danger">
+                    {% for error in form.screenSize.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="refreshRate">Refresh Rate</label>
+                <input id="refreshRate" name="refreshRate" class="form-control" type="text" placeholder="refreshRate" value= "{{ smartphone[10] }}"/>
+                {% if form.refreshRate.errors %}
+                    <ul class="errors text-danger">
+                    {% for error in form.refreshRate.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="description">Description</label>
+                <input id="description" name="description" class="form-control" type="text" placeholder="Description" value= "{{ smartphone[11] }}"/>
+                {% if form.description.errors %}
+                    <ul class="errors text-danger">
+                    {% for error in form.description.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="image_URL">Smartphone image:</label>
+                <input type="file" id="image_URL" name="img" accept="image/*">
+            </div>
+
+            {% endfor %}
+
+            <div class="input-group justify-content-between">
+                <div class="form-floating mb-4" style="min-width: 230px;">
+                    <button type="reset" class="btn btn-dark d-block w-100 py-3 mb-4" href="/editSmartphone">Cancel</button>
+                    
+                </div>
+            
+                <div class="form-floating mb-4" style="min-width: 230px;">
+                <button type="submit" class="btn btn-dark d-block w-100 py-3 mb-4">Edit</button>
+                
+            </div>
+
+        </div>
+    </form>
+
+    {% with edited = get_flashed_messages(category_filter=["edited"]) %}
+    {% if edited %}
+        {%- for msg in edited %}
+        <div class="position-relative">
+            <div class="rightbtm" >
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <h4>Edited Successfully!</h4>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button> 
+                    <p>{{ msg }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor -%}
+    {% endif %}
+    {% endwith %}
+
+
+</div>
+{% endblock %}
