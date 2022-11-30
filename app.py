@@ -108,11 +108,21 @@ def smartphonedetail(id):
     if session.get('loggedin') == True:
         smartphone = get_smartphone(id)
         session['smartphoneid'] = id
+        userid = session['id']
         conn = get_db_connection()
         reviews = conn.execute('SELECT * FROM Review WHERE smartphoneID = ?',(id,)).fetchall()
         users = conn.execute('SELECT User.first_name,User.last_name FROM User INNER JOIN Review ON User.id = Review.userID AND Review.smartphoneID = ?',(id,)).fetchall()
-        conn.close()
         data = zip(reviews, users)
+        if request.method == 'POST':
+            if request.form['favourite'] == 'favourite':
+                with sql.connect("database.db") as conn:
+                    cur = conn.cursor()
+                    cur.execute('INSERT INTO Favourite (userID, smartphoneID) VALUES (?, ?)',(userid[0],id))
+                    cur.close()
+                    message = "Smartphone has been added to favourite." 
+                    flash(message,'Added')
+                return render_template('smartphonedetail.html', smartphone = smartphone, data = data)
+            return render_template('smartphonedetail.html', smartphone = smartphone, data = data)
         return render_template('smartphonedetail.html',smartphone = smartphone, data = data)
     else:
         message = "Unauthorized Access! Please login to continue."

@@ -23,6 +23,7 @@
         margin-bottom: 50px;
     }
 </style>
+<form action="{{ url_for('smartphonedetail', id=smartphone['id']) }}" method="POST">
 <div class="container mt-5">
     <div class="row">
         <div class="col mr-3">
@@ -31,13 +32,14 @@
         <div class="col-7">
             <div class="d-flex justify-content-between">
                 <h2 class="fw-bold">{{ smartphone['brand'] }} {{ smartphone['model'] }}</h2>
-                <button type="submit" class="btn btn-outline-danger nav-link mb-3" href="#">
+                <button type="submit" class="btn btn-outline-danger nav-link mb-3" value="favourite" id ="favourite" name="favourite">
                     <i class="bi bi-suit-heart"></i>
                 </button>
             </div>
             <h5 class="text-muted text-justify">{{ smartphone['description'] }}</h5>
         </div>
     </div>
+</form>
 
     <div class ="line"></div>
 
@@ -83,4 +85,41 @@
     {% endfor %}
 
 </div>
+
+<style>
+    .rightbtm{
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        padding-right: 10px;
+        padding-bottom: 10px;
+    }
+</style>
+
+{% with favourite = get_flashed_messages(category_filter=["Added"]) %}
+{% if favourite %}
+    {%- for msg in favourite %}
+    <div class="position-relative">
+        <div class="rightbtm flash" >
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <h4>Add to favourite successfully!</h4>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+                <p>{{ msg }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor -%}
+{% endif %}
+{% endwith %}
+
+
+<script>
+    $(function() {
+        $('.flash').delay(500).show(function() {
+            $(this).delay(2500).fadeOut();
+        });
+    });
+</script>
 {% endblock %}
