@@ -117,11 +117,16 @@ def smartphonedetail(id):
             if request.form['favourite'] == 'favourite':
                 with sql.connect("database.db") as conn:
                     cur = conn.cursor()
+                    existed = cur.execute('SELECT * FROM Favourite WHERE userID = ? AND smartphoneID = ?',(userid[0],id)).fetchall()
+                    if existed:
+                        message = "Favourites has already existed."
+                        flash(message,'Existed')
+                        return render_template('smartphonedetail.html', smartphone = smartphone, data = data)
                     cur.execute('INSERT INTO Favourite (userID, smartphoneID) VALUES (?, ?)',(userid[0],id))
                     cur.close()
                     message = "Smartphone has been added to favourite." 
                     flash(message,'Added')
-                return render_template('smartphonedetail.html', smartphone = smartphone, data = data)
+                    return render_template('smartphonedetail.html', smartphone = smartphone, data = data)
             return render_template('smartphonedetail.html', smartphone = smartphone, data = data)
         return render_template('smartphonedetail.html',smartphone = smartphone, data = data)
     else:
@@ -183,6 +188,25 @@ def review():
         message = "Unauthorized Access! Please login to continue."
         flash(message,'InvalidLogin')
         return redirect('/login')
+
+@app.route('/favourite', methods = ['GET','POST'])
+def favourite():
+    userid = session['id']
+    conn = get_db_connection()
+    if request.method == 'POST':
+        if request.form.get('remove') == 'remove':
+            favId = request.form.get('id')
+            conn.execute('DELETE FROM Favourite WHERE id = ?',(favId,))
+            conn.commit()
+            message = "The favourite has been removed successfully"
+            flash(message,'removedOne')
+        if request.form.get('reset') == 'reset':
+            conn.execute('DELETE FROM Favourite WHERE userID = ?',(userid))
+            conn.commit()
+            message = "All favourites has been removed successfully"
+            flash(message,'removed')
+    favourites = conn.execute('SELECT Favourite.id, Favourite.smartphoneID, Smartphone.brand, Smartphone.model, Smartphone.lowprice, Smartphone.highprice, Smartphone.image_URL FROM Favourite INNER JOIN Smartphone ON Favourite.userID = ? AND Favourite.smartphoneID = Smartphone.id',(userid)).fetchall()
+    return render_template('favourite.html',favourites = favourites)
 
 if __name__ == '__main__':
     app.run(debug = True)
