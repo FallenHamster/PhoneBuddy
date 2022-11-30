@@ -84,7 +84,7 @@
 {% if NotLoggedIn %}
     {%- for msg in NotLoggedIn %}
     <div class="position-relative">
-        <div class="rightbtm" >
+        <div class="rightbtm flash" >
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <h4>Invalid Login!</h4>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -101,9 +101,9 @@
 
 <script>
     $(function() {
-       $('.flash').delay(500).fadeIn('normal', function() {
-          $(this).delay(2500).fadeOut();
-       });
+        $('.flash').delay(500).show(function() {
+            $(this).delay(2500).fadeOut();
+        });
     });
 </script>
 
