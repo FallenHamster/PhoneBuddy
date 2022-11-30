@@ -67,7 +67,7 @@ def login():
             if check_password_hash(pwhash[0],form.password.data):
                 session ['loggedin'] = True 
                 session ['id'] = id
-                session ['username'] = first_name
+                session ['username'] = first_name[0]
                 message = "Welcome to PhoneBuddy!!"
                 flash(message,'LoggedIn')
                 return render_template('home.html')
@@ -151,6 +151,8 @@ def edit():
             conn.execute('UPDATE User SET first_name = ?,last_name = ?,email = ?, password = ? WHERE id = ?',(form.first_name.data, form.last_name.data, form.email.data, hashed_pw,  id[0]))
             conn.commit()
             conn.close()
+            session ['username'] = form.first_name.data
+            print(form.first_name.data)
             message = "Account detail has been modified successfully"
             flash(message,'edited')
             return redirect(url_for('edit'))
