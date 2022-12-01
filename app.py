@@ -3,12 +3,17 @@ from flask import Flask, render_template, redirect, url_for, request, flash, ses
 from wtforms import StringField, BooleanField, PasswordField, validators, HiddenField, IntegerField
 from flask_wtf import Form
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager
+from chatterbot import ChatBot
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
-#login_manager = LoginManager()
-#login_manager.init_app(app)
+
+#bot = ChatBot("ChatterBot", storage_adapter='chatterbot.storage.SQLStorageAdapter',
+            #database_uri='sqlite:///database.sqlite3', logic_adapters = [{   
+                #'import_path': 'chatterbot.logic.BestMatch',
+                #'default_response': 'i honestly have no idea how to respond to that',
+                #'maximum_similarity_threshold': 0.90
+            #}])
 
 class UserForm(Form):
     first_name = StringField('first_name',[validators.DataRequired()])
@@ -264,6 +269,14 @@ def editSmartphone():
         return redirect('/login')
     return render_template('editSmartphone.html',smartphones = smartphones, form = form)
 
+#@app.route('/chatbot')
+#def chatbot():
+    #return render_template('chatbot.html')
+
+#@app.route("/get")
+#def get_bot_response():
+	#userText = request.args.get('msg')
+	#return str(bot.get_response(userText))
 
 if __name__ == '__main__':
     app.run(debug = True)

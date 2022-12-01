@@ -15,8 +15,6 @@ pip install wtforms
 pip install flask_login
 
 To Do:
-Insert smartphone record
-Favourite page 
 
 To Fix:
 Filter By
