@@ -3,7 +3,7 @@ from flask import Flask, render_template, redirect, url_for, request, flash, ses
 from wtforms import StringField, BooleanField, PasswordField, validators, HiddenField, IntegerField
 from flask_wtf import Form
 from werkzeug.security import generate_password_hash, check_password_hash
-from chatterbot import ChatBot
+import math
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
@@ -248,46 +248,43 @@ def addSmartphone():
         return redirect('/login')
     return render_template('addSmartphone.html', form = form)
 
-@app.route('/editSmartphone',methods = ['GET','POST'])
-def editSmartphone():
-    id = session['smartphoneid']
+@app.route('/editSmartphone/<int:id>',methods = ['GET','POST'])
+def editSmartphone(id):
+    smartphoneID = id
     conn = get_db_connection()
-    smartphones = conn.execute('SELECT * FROM Smartphone WHERE id = ?',(id)).fetchall()
+    smartphones = conn.execute('SELECT * FROM Smartphone WHERE id = ?',(smartphoneID,)).fetchall()
 
     form = addSmartphoneForm(request.form)
     if request.method == 'POST' and form.validate():
 
-        conn.execute('UPDATE Smartphone SET brand = ?,model = ?,processor = ?, ram = ?, colour = ?, battery = ?, lowprice = ?, highprice = ?, screenSize = ?, refreshRate = ?, description = ?, image_URL = ? WHERE id = ?',(form.brand.data, form.model.data, form.processor.data, form.ram.data, form.colour.data, form.battery.data, form.lowprice.data, form.highprice.data, form.screenSize.data, form.refreshRate.data, form.description.data, form.image_URL.data,id[0]))
+        conn.execute('UPDATE Smartphone SET brand = ?,model = ?,processor = ?, ram = ?, colour = ?, battery = ?, lowprice = ?, highprice = ?, screenSize = ?, refreshRate = ?, description = ?, image_URL = ? WHERE id = ?',(form.brand.data, form.model.data, form.processor.data, form.ram.data, form.colour.data, form.battery.data, form.lowprice.data, form.highprice.data, form.screenSize.data, form.refreshRate.data, form.description.data, form.image_URL.data, smartphoneID))
         conn.commit()
         conn.close()
         message = "Smartphone detail has been modified successfully"
         flash(message,'edited')
-        return redirect('/login')
+        return redirect('/manageSmartphone')
     return render_template('editSmartphone.html',smartphones = smartphones, form = form)
-
-#@app.route('/manageSmartphone', methods = ['GET','POST'])
-#def manageSmartphone():
-    #conn = get_db_connection()
-    #smartphones = conn.execute('SELECT * FROM Smartphone').fetchall()
-    #return render_template('manageSmartphone.html',smartphones = smartphones)
-
 
 @app.route('/manageSmartphone', methods = ['GET','POST'])
 def manageSmartphone():
     conn = get_db_connection()
     page = request.args.get('page', type=int, default=1)
-    limit= 5
+    limit = 5
     offset = page*limit - limit
     smartphones = conn.execute('SELECT * FROM Smartphone').fetchall()
-    
-    total = len(smartphones)
 
+    total = len(smartphones)
+    amountPages = math.ceil(total/limit)
+
+    pages = []
+    for i in range(amountPages):
+        pages.append(i+1)
     smartphones = conn.execute("SELECT * FROM Smartphone LIMIT ? OFFSET ?", (limit, offset)).fetchall()
 
-    return render_template('manageSmartphone.html', smartphones = smartphones , total = total)
-    #conn = get_db_connection()
-    #smartphones = conn.execute('SELECT * FROM Smartphone').fetchall()
-    #return render_template('manageSmartphone.html',smartphones = smartphones)
+    if request.method == 'POST':
+        smartphoneID = request.form.get('id')
+        return redirect('/editSmartphone/<int:id>',smartphoneID = smartphoneID)
+    return render_template('manageSmartphone.html', smartphones = smartphones , total = total, pages = pages, page = page)
 
 #@app.route('/chatbot')
 #def chatbot():

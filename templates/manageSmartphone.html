@@ -299,25 +299,24 @@ $(document).ready(function(){
 						<td>{{ smartphone['brand'] }}</td>
 						<td>{{ smartphone['model'] }}</td>
 						<td>RM{{ smartphone['lowprice'] }} - {{ smartphone['highprice'] }}</td>
+						<form action="./manageSmartphone.html" method = "POST">
+							<input type="hidden" name="id" value="{{ smartphone['id'] }}" id="id">
+						</form>
 						<td>
-							<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+							<a href="{{ url_for('editSmartphone', id=smartphone['id']) }}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
 							<a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
 						</td>
 					</tr>
 				</tbody>
 				{% endfor %}
 			</table>
-			
 			<div class="clearfix">
 				<div class="hint-text">Showing <b>5</b> out of <b>{{ total }}</b> entries</div>
 				<ul class="pagination">
-					<li class="page-item"><a href="#">Previous</a></li>
-					<li class="page-item active"><a href="#" class="page-link" id="page" name="page">1</a></li>
-					<li class="page-item"><a href="#" class="page-link" id="page" name="page">2</a></li>
-					<li class="page-item"><a href="#" class="page-link" id="page" name="page">3</a></li>
-					<li class="page-item"><a href="#" class="page-link" id="page" name="page">4</a></li>
-					<li class="page-item"><a href="#" class="page-link" id="page" name="page">5</a></li>
-					<li class="page-item"><a href="#" class="page-link" id="page" name="page">Next</a></li>
+					
+					{% for amountpage in pages %}
+					<li class="page-item {{ 'active' if page == amountpage }}"><a href="/manageSmartphone?page={{ amountpage }}" class="page-link" name="page">{{ amountpage }}</a></li>
+					{% endfor %}
 				</ul>
 			</div>
 		</div>
