@@ -71,8 +71,6 @@ def home():
         #return redirect('/login')
     return render_template('home.html')
 
-#User
-
 @app.route('/login', methods = ['GET','POST'])
 def login():
     form = LoginForm(request.form)
@@ -145,8 +143,6 @@ def edit():
         message = "Unauthorized Access! Please login to continue."
         flash(message,'InvalidLogin')
         return redirect('/login')
-
-#Smartphone
 
 @app.route('/smartphone', methods = ['GET','POST'])
 def smartphone():
@@ -268,6 +264,30 @@ def editSmartphone():
         flash(message,'edited')
         return redirect('/login')
     return render_template('editSmartphone.html',smartphones = smartphones, form = form)
+
+#@app.route('/manageSmartphone', methods = ['GET','POST'])
+#def manageSmartphone():
+    #conn = get_db_connection()
+    #smartphones = conn.execute('SELECT * FROM Smartphone').fetchall()
+    #return render_template('manageSmartphone.html',smartphones = smartphones)
+
+
+@app.route('/manageSmartphone', methods = ['GET','POST'])
+def manageSmartphone():
+    conn = get_db_connection()
+    page = request.args.get('page', type=int, default=1)
+    limit= 5
+    offset = page*limit - limit
+    smartphones = conn.execute('SELECT * FROM Smartphone').fetchall()
+    
+    total = len(smartphones)
+
+    smartphones = conn.execute("SELECT * FROM Smartphone LIMIT ? OFFSET ?", (limit, offset)).fetchall()
+
+    return render_template('manageSmartphone.html', smartphones = smartphones , total = total)
+    #conn = get_db_connection()
+    #smartphones = conn.execute('SELECT * FROM Smartphone').fetchall()
+    #return render_template('manageSmartphone.html',smartphones = smartphones)
 
 #@app.route('/chatbot')
 #def chatbot():
