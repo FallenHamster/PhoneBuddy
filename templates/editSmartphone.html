@@ -115,7 +115,7 @@
 
             <div class="form-floating mb-4">
                 <label for="screenSize">Screen Size</label>
-                <input id="screenSize" name="screenSize" class="form-control" type="text" placeholder="screenSize" value= "{{ smartphone[9] }}" />
+                <input id="screenSize" name="screenSize" class="form-control" type="text" placeholder="Screen Size" value= "{{ smartphone[9] }}" />
                 {% if form.screenSize.errors %}
                     <ul class="errors text-danger">
                     {% for error in form.screenSize.errors %}
@@ -127,7 +127,7 @@
 
             <div class="form-floating mb-4">
                 <label for="refreshRate">Refresh Rate</label>
-                <input id="refreshRate" name="refreshRate" class="form-control" type="text" placeholder="refreshRate" value= "{{ smartphone[10] }}"/>
+                <input id="refreshRate" name="refreshRate" class="form-control" type="text" placeholder="Refresh Rate" value= "{{ smartphone[10] }}"/>
                 {% if form.refreshRate.errors %}
                     <ul class="errors text-danger">
                     {% for error in form.refreshRate.errors %}
@@ -139,7 +139,7 @@
 
             <div class="form-floating mb-4">
                 <label for="description">Description</label>
-                <input id="description" name="description" class="form-control" type="text" placeholder="Description" value= "{{ smartphone[11] }}"/>
+                <textarea id="description" rows="4" cols="50" name="description" class="form-control" type="text" placeholder="Description">{{ smartphone[11] }}</textarea>
                 {% if form.description.errors %}
                     <ul class="errors text-danger">
                     {% for error in form.description.errors %}
