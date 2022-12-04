@@ -52,20 +52,6 @@ class addSmartphoneForm(Form):
     description = StringField('description',[validators.DataRequired()])
     image_URL = StringField('image_URL',[validators.DataRequired()])
 
-class editSmartphoneForm(Form):
-    brand = StringField('brand',[validators.DataRequired()])
-    model = StringField('model',[validators.DataRequired()])
-    processor = StringField('processor',[validators.DataRequired()])
-    ram = StringField('ram',[validators.DataRequired()])
-    colour = StringField('colour',[validators.DataRequired()])
-    battery = StringField('battery',[validators.DataRequired()])
-    lowprice = IntegerField('lowprice',[validators.DataRequired()])
-    highprice = IntegerField('highprice',[validators.DataRequired()])
-    screenSize = StringField('screenSize',[validators.DataRequired()])
-    refreshRate = StringField('refreshRate',[validators.DataRequired()])
-    description = StringField('description',[validators.DataRequired()])
-    image_URL = StringField('image_URL',[validators.DataRequired()])
-
 def get_db_connection():
     conn = sql.connect('database.db')
     conn.row_factory = sql.Row
@@ -268,7 +254,7 @@ def editSmartphone(id):
     conn = get_db_connection()
     smartphones = conn.execute('SELECT * FROM Smartphone WHERE id = ?',(smartphoneID,)).fetchall()
 
-    form = editSmartphoneForm(request.form)
+    form = addSmartphoneForm(request.form)
     if request.method == 'POST':
         if form.image_URL.data == '':
             image = conn.execute('SELECT image_URL FROM Smartphone WHERE id = ?',(smartphoneID,)).fetchone()
@@ -303,7 +289,6 @@ def manageSmartphone():
 
     if request.method == 'POST':
         smartphoneID = request.form.get('id')
-        print(smartphoneID)
         if request.form.get('Delete') == 'Delete':
             conn.execute('DELETE FROM Smartphone WHERE id = ?',(smartphoneID,))
             conn.commit()

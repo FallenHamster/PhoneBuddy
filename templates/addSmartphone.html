@@ -11,6 +11,12 @@
 
             <h3 class="text-center fw-light mb-4">Add Smartphone</h3>
 
+            <div class="form-floating mb-4 text-center" style="margin-left:80px;">
+                <input type="file" id="image_URL" name="image_URL" accept="image/*">
+            </div>
+            <div class="text-center mr-3">
+                <label for="image_URL" >Upload Smartphone image</label>
+            </div>
             <div class="form-floating mb-4">
                 <label for="brand">Brand</label>
                 <input id="brand" name="brand" class="form-control" type="text" placeholder="Brand" />
@@ -142,21 +148,15 @@
                     </ul>
                 {% endif %}
             </div>
-
-            <div class="form-floating mb-4">
-                <label for="image_URL">Smartphone image:</label>
-                <input type="file" id="image_URL" name="image_URL" accept="image/*">
-            </div>
-
-            
+ 
             <div class="input-group justify-content-between">
                 <div class="form-floating mb-4" style="min-width: 230px;">
-                    <button type="reset" class="btn btn-dark d-block w-100 py-3 mb-4" href="##" onclick="javascript:history.go(-1)">Cancel</button>
+                    <button type="reset" class="btn btn-outline-danger d-block w-100 py-3 mb-4" href="##" onclick="javascript:history.go(-1)">Cancel</button>
                     
                 </div>
             
                 <div class="form-floating mb-4" style="min-width: 230px;">
-                <button type="submit" class="btn btn-dark d-block w-100 py-3 mb-4">Add</button>
+                <button type="submit" class="btn btn-primary d-block w-100 py-3 mb-4">Add</button>
                 </div>
                 
             </div>
