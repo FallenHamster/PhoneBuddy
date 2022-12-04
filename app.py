@@ -269,7 +269,14 @@ def editSmartphone(id):
     smartphones = conn.execute('SELECT * FROM Smartphone WHERE id = ?',(smartphoneID,)).fetchall()
 
     form = editSmartphoneForm(request.form)
-    if request.method == 'POST' and form.validate():
+    if request.method == 'POST':
+        if form.image_URL.data == '':
+            image = conn.execute('SELECT image_URL FROM Smartphone WHERE id = ?',(smartphoneID,)).fetchone()
+            conn.execute('UPDATE Smartphone SET brand = ?,model = ?,processor = ?, ram = ?, colour = ?, battery = ?, lowprice = ?, highprice = ?, screenSize = ?, refreshRate = ?, description = ?, image_URL = ? WHERE id = ?',(form.brand.data, form.model.data, form.processor.data, form.ram.data, form.colour.data, form.battery.data, form.lowprice.data, form.highprice.data, form.screenSize.data, form.refreshRate.data, form.description.data, image[0], smartphoneID))
+            conn.commit()
+            message = "Smartphone detail has been modified successfully"
+            flash(message,'edited')
+            return redirect('/manageSmartphone')
         conn.execute('UPDATE Smartphone SET brand = ?,model = ?,processor = ?, ram = ?, colour = ?, battery = ?, lowprice = ?, highprice = ?, screenSize = ?, refreshRate = ?, description = ?, image_URL = ? WHERE id = ?',(form.brand.data, form.model.data, form.processor.data, form.ram.data, form.colour.data, form.battery.data, form.lowprice.data, form.highprice.data, form.screenSize.data, form.refreshRate.data, form.description.data, form.image_URL.data, smartphoneID))
         conn.commit()
         conn.close()
