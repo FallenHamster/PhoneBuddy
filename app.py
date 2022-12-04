@@ -52,6 +52,20 @@ class addSmartphoneForm(Form):
     description = StringField('description',[validators.DataRequired()])
     image_URL = StringField('image_URL',[validators.DataRequired()])
 
+class editSmartphoneForm(Form):
+    brand = StringField('brand',[validators.DataRequired()])
+    model = StringField('model',[validators.DataRequired()])
+    processor = StringField('processor',[validators.DataRequired()])
+    ram = StringField('ram',[validators.DataRequired()])
+    colour = StringField('colour',[validators.DataRequired()])
+    battery = StringField('battery',[validators.DataRequired()])
+    lowprice = IntegerField('lowprice',[validators.DataRequired()])
+    highprice = IntegerField('highprice',[validators.DataRequired()])
+    screenSize = StringField('screenSize',[validators.DataRequired()])
+    refreshRate = StringField('refreshRate',[validators.DataRequired()])
+    description = StringField('description',[validators.DataRequired()])
+    image_URL = StringField('image_URL',[validators.DataRequired()])
+
 def get_db_connection():
     conn = sql.connect('database.db')
     conn.row_factory = sql.Row
@@ -245,7 +259,7 @@ def addSmartphone():
             conn.commit()
         message =  "New Smartphone has been added successfully"
         flash(message,'registered')
-        return redirect('/login')
+        return redirect('/manageSmartphone')
     return render_template('addSmartphone.html', form = form)
 
 @app.route('/editSmartphone/<int:id>',methods = ['GET','POST'])
@@ -254,9 +268,8 @@ def editSmartphone(id):
     conn = get_db_connection()
     smartphones = conn.execute('SELECT * FROM Smartphone WHERE id = ?',(smartphoneID,)).fetchall()
 
-    form = addSmartphoneForm(request.form)
+    form = editSmartphoneForm(request.form)
     if request.method == 'POST' and form.validate():
-
         conn.execute('UPDATE Smartphone SET brand = ?,model = ?,processor = ?, ram = ?, colour = ?, battery = ?, lowprice = ?, highprice = ?, screenSize = ?, refreshRate = ?, description = ?, image_URL = ? WHERE id = ?',(form.brand.data, form.model.data, form.processor.data, form.ram.data, form.colour.data, form.battery.data, form.lowprice.data, form.highprice.data, form.screenSize.data, form.refreshRate.data, form.description.data, form.image_URL.data, smartphoneID))
         conn.commit()
         conn.close()
@@ -283,8 +296,14 @@ def manageSmartphone():
 
     if request.method == 'POST':
         smartphoneID = request.form.get('id')
-        return redirect('/editSmartphone/<int:id>',smartphoneID = smartphoneID)
-    return render_template('manageSmartphone.html', smartphones = smartphones , total = total, pages = pages, page = page)
+        print(smartphoneID)
+        if request.form.get('Delete') == 'Delete':
+            conn.execute('DELETE FROM Smartphone WHERE id = ?',(smartphoneID,))
+            conn.commit()
+            conn.close()
+            message = "The smartphone has been removed successfully"
+            flash(message,'removed')
+    return render_template('manageSmartphone.html', smartphones = smartphones, total = total, pages = pages, page = page)
 
 #@app.route('/chatbot')
 #def chatbot():
