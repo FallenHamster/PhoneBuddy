@@ -83,10 +83,13 @@ def login():
             first_name = cur.fetchone()
             cur.execute("SELECT password FROM USER WHERE email = ?",(form.email.data,))
             pwhash = cur.fetchone()
+            cur.execute("SELECT type FROM USER WHERE email = ?",(form.email.data,))
+            type = cur.fetchone()
             if check_password_hash(pwhash[0],form.password.data):
                 session ['loggedin'] = True 
                 session ['id'] = id
                 session ['username'] = first_name[0]
+                session ['type'] = type[0]
                 message = "Welcome to PhoneBuddy!!"
                 flash(message,'LoggedIn')
                 return render_template('home.html')
@@ -236,66 +239,81 @@ def favourite():
 
 @app.route('/addSmartphone',methods=['GET','POST'])
 def addSmartphone():
-    form = addSmartphoneForm(request.form)
-    if request.method == 'POST' and form.validate():
-        with sql.connect("database.db") as conn:
-            cur = conn.cursor()
-            cur.execute("INSERT INTO Smartphone (brand, model, processor, ram, colour, battery, lowprice, highprice, screenSize, refreshRate, description, image_URL) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",(form.brand.data, form.model.data, form.processor.data, form.ram.data, form.colour.data, form.battery.data, form.lowprice.data, form.highprice.data, form.screenSize.data, form.refreshRate.data, form.description.data, form.image_URL.data, ))
+    if session.get('type') == 'admin':
+        form = addSmartphoneForm(request.form)
+        if request.method == 'POST' and form.validate():
+            with sql.connect("database.db") as conn:
+                cur = conn.cursor()
+                cur.execute("INSERT INTO Smartphone (brand, model, processor, ram, colour, battery, lowprice, highprice, screenSize, refreshRate, description, image_URL) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",(form.brand.data, form.model.data, form.processor.data, form.ram.data, form.colour.data, form.battery.data, form.lowprice.data, form.highprice.data, form.screenSize.data, form.refreshRate.data, form.description.data, form.image_URL.data, ))
 
-            conn.commit()
-        message =  "New Smartphone has been added successfully"
-        flash(message,'registered')
-        return redirect('/manageSmartphone')
-    return render_template('addSmartphone.html', form = form)
+                conn.commit()
+            message =  "New Smartphone has been added successfully"
+            flash(message,'registered')
+            return redirect('/manageSmartphone')
+        return render_template('addSmartphone.html', form = form)
+    else:
+        message = "You don't have permission to access this page!"
+        flash(message,'InvalidPermission')
+        return redirect('/')
 
 @app.route('/editSmartphone/<int:id>',methods = ['GET','POST'])
 def editSmartphone(id):
-    smartphoneID = id
-    conn = get_db_connection()
-    smartphones = conn.execute('SELECT * FROM Smartphone WHERE id = ?',(smartphoneID,)).fetchall()
+    if session.get('type') == 'admin':
+        smartphoneID = id
+        conn = get_db_connection()
+        smartphones = conn.execute('SELECT * FROM Smartphone WHERE id = ?',(smartphoneID,)).fetchall()
 
-    form = addSmartphoneForm(request.form)
-    if request.method == 'POST':
-        if form.image_URL.data == '':
-            image = conn.execute('SELECT image_URL FROM Smartphone WHERE id = ?',(smartphoneID,)).fetchone()
-            conn.execute('UPDATE Smartphone SET brand = ?,model = ?,processor = ?, ram = ?, colour = ?, battery = ?, lowprice = ?, highprice = ?, screenSize = ?, refreshRate = ?, description = ?, image_URL = ? WHERE id = ?',(form.brand.data, form.model.data, form.processor.data, form.ram.data, form.colour.data, form.battery.data, form.lowprice.data, form.highprice.data, form.screenSize.data, form.refreshRate.data, form.description.data, image[0], smartphoneID))
+        form = addSmartphoneForm(request.form)
+        if request.method == 'POST':
+            if form.image_URL.data == '':
+                image = conn.execute('SELECT image_URL FROM Smartphone WHERE id = ?',(smartphoneID,)).fetchone()
+                conn.execute('UPDATE Smartphone SET brand = ?,model = ?,processor = ?, ram = ?, colour = ?, battery = ?, lowprice = ?, highprice = ?, screenSize = ?, refreshRate = ?, description = ?, image_URL = ? WHERE id = ?',(form.brand.data, form.model.data, form.processor.data, form.ram.data, form.colour.data, form.battery.data, form.lowprice.data, form.highprice.data, form.screenSize.data, form.refreshRate.data, form.description.data, image[0], smartphoneID))
+                conn.commit()
+                message = "Smartphone detail has been modified successfully"
+                flash(message,'edited')
+                return redirect('/manageSmartphone')
+            conn.execute('UPDATE Smartphone SET brand = ?,model = ?,processor = ?, ram = ?, colour = ?, battery = ?, lowprice = ?, highprice = ?, screenSize = ?, refreshRate = ?, description = ?, image_URL = ? WHERE id = ?',(form.brand.data, form.model.data, form.processor.data, form.ram.data, form.colour.data, form.battery.data, form.lowprice.data, form.highprice.data, form.screenSize.data, form.refreshRate.data, form.description.data, form.image_URL.data, smartphoneID))
             conn.commit()
+            conn.close()
             message = "Smartphone detail has been modified successfully"
             flash(message,'edited')
             return redirect('/manageSmartphone')
-        conn.execute('UPDATE Smartphone SET brand = ?,model = ?,processor = ?, ram = ?, colour = ?, battery = ?, lowprice = ?, highprice = ?, screenSize = ?, refreshRate = ?, description = ?, image_URL = ? WHERE id = ?',(form.brand.data, form.model.data, form.processor.data, form.ram.data, form.colour.data, form.battery.data, form.lowprice.data, form.highprice.data, form.screenSize.data, form.refreshRate.data, form.description.data, form.image_URL.data, smartphoneID))
-        conn.commit()
-        conn.close()
-        message = "Smartphone detail has been modified successfully"
-        flash(message,'edited')
-        return redirect('/manageSmartphone')
-    return render_template('editSmartphone.html',smartphones = smartphones, form = form)
+        return render_template('editSmartphone.html',smartphones = smartphones, form = form)
+    else:
+        message = "You don't have permission to access this page!"
+        flash(message,'InvalidPermission')
+        return redirect('/')
 
 @app.route('/manageSmartphone', methods = ['GET','POST'])
 def manageSmartphone():
-    conn = get_db_connection()
-    page = request.args.get('page', type=int, default=1)
-    limit = 5
-    offset = page*limit - limit
-    smartphones = conn.execute('SELECT * FROM Smartphone').fetchall()
+    if session.get('type') == 'admin':
+        conn = get_db_connection()
+        page = request.args.get('page', type=int, default=1)
+        limit = 5
+        offset = page*limit - limit
+        smartphones = conn.execute('SELECT * FROM Smartphone').fetchall()
 
-    total = len(smartphones)
-    amountPages = math.ceil(total/limit)
+        total = len(smartphones)
+        amountPages = math.ceil(total/limit)
 
-    pages = []
-    for i in range(amountPages):
-        pages.append(i+1)
-    smartphones = conn.execute("SELECT * FROM Smartphone LIMIT ? OFFSET ?", (limit, offset)).fetchall()
+        pages = []
+        for i in range(amountPages):
+            pages.append(i+1)
+        smartphones = conn.execute("SELECT * FROM Smartphone LIMIT ? OFFSET ?", (limit, offset)).fetchall()
 
-    if request.method == 'POST':
-        smartphoneID = request.form.get('id')
-        if request.form.get('Delete') == 'Delete':
-            conn.execute('DELETE FROM Smartphone WHERE id = ?',(smartphoneID,))
-            conn.commit()
-            conn.close()
-            message = "The smartphone has been removed successfully"
-            flash(message,'removed')
-    return render_template('manageSmartphone.html', smartphones = smartphones, total = total, pages = pages, page = page)
+        if request.method == 'POST':
+            smartphoneID = request.form.get('id')
+            if request.form.get('Delete') == 'Delete':
+                conn.execute('DELETE FROM Smartphone WHERE id = ?',(smartphoneID,))
+                conn.commit()
+                conn.close()
+                message = "The smartphone has been removed successfully"
+                flash(message,'removed')
+        return render_template('manageSmartphone.html', smartphones = smartphones, total = total, pages = pages, page = page)
+    else:
+        message = "You don't have permission to access this page!"
+        flash(message,'InvalidPermission')
+        return redirect('/')
 
 #@app.route('/chatbot')
 #def chatbot():
