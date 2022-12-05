@@ -106,56 +106,56 @@ form{
     cursor:pointer;
 }
 
+
 </style>
-<div class="position-relative vh-100">
-    <div class="cont-sec" style="padding-bottom:30px;">
-        <div class="container my-container">
-            <div class="row cart-row-1">
-                <h2>MY Favourite</h2>
-            </div>
-            {% if favourites %}
-            <div class="row cart-cont">
-                <!--<form action="/favourite" method="POST">-->
-                    {% for favourite in favourites %}
-                    <form action="/favourite" method="POST">
-                    <div class="row cart-prod-cont" style="min-height:300px;">
-                        <div class="col-lg-4 col-md-12 cart-prod-col-1">
-                            <img src="{{ url_for('static',filename = favourite['image_URL']) }}" alt=""/>
-                        </div>
-                        <div class="col-lg-4 col-md-12 cart-prod-col-2 text-center">
+<div class="cont-sec" style="padding-bottom:120px;">
+    <div class="container my-container">
+        <div class="row cart-row-1">
+            <h2>MY Favourite</h2>
+        </div>
+        {% if favourites %}
+        <div class="row cart-cont">
+            <!--<form action="/favourite" method="POST">-->
+                {% for favourite in favourites %}
+                <form action="/favourite" method="POST">
+                <div class="row cart-prod-cont" style="min-height:300px;">
+                    <div class="col-lg-4 col-md-12 cart-prod-col-1">
+                        <img src="{{ url_for('static',filename = favourite['image_URL']) }}" alt=""/>
+                    </div>
+                    <div class="col-lg-4 col-md-12 cart-prod-col-2 text-center">
+                        <div>
                             <div>
-                                <div>
-                                    <a href="{{ url_for('smartphonedetail', id=favourite['smartphoneID']) }}" style="text-decoration:none;">{{ favourite['brand'] }} {{ favourite['model'] }}</a>
-                                </div>
-                                <p>RM {{ favourite['lowprice'] }} - {{ favourite['highprice'] }}</p>
+                                <a href="{{ url_for('smartphonedetail', id=favourite['smartphoneID']) }}" style="text-decoration:none;">{{ favourite['brand'] }} {{ favourite['model'] }}</a>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-md-12 cart-prod-col-2">
-                            <button class="mx-auto link-button" type="submit" name="remove" value="remove" id="remove">Remove</button>
-                            <input type="hidden" name="id" value="{{ favourite['id'] }}" id="id">
+                            <p>RM {{ favourite['lowprice'] }} - {{ favourite['highprice'] }}</p>
                         </div>
                     </div>
-                    </form>
-                    {% endfor %}
-                    <form action="/favourite" method="POST">
-                        <div class="d-flex justify-content-between my-3"> 
-                            <a class="link-button" type="submit" name="back" href="/">Back</a>
-                            <a href="/favourite">
-                                <button class="link-button" type="submit" name="reset" value="reset" id="reset">Reset Favourite</button>
-                            </a>
-                        </div>
-                    </form>
-                <!--</form>-->
-                {% else %}
-                    <div class="mt-5 d-flex justify-content-center align-items-center flex-grow-1">
-                        <h4 class="display-5">No Favourites Found.</h4>
+                    <div class="col-lg-4 col-md-12 cart-prod-col-2">
+                        <button class="mx-auto link-button" type="submit" name="remove" value="remove" id="remove">Remove</button>
+                        <input type="hidden" name="id" value="{{ favourite['id'] }}" id="id">
                     </div>
-                {% endif %}
-                
-            </div>
+                </div>
+                </form>
+                {% endfor %}
+                <form action="/favourite" method="POST">
+                    <div class="d-flex justify-content-between my-3"> 
+                        <a class="link-button" type="submit" name="back" href="/">Back</a>
+                        <a href="/favourite">
+                            <button class="link-button" type="submit" name="reset" value="reset" id="reset">Reset Favourite</button>
+                        </a>
+                    </div>
+                </form>
+            <!--</form>-->
+            {% else %}
+                <div class="mt-5 d-flex justify-content-center align-items-center flex-grow-1">
+                    <h4 class="display-5">No Favourites Found.</h4>
+                </div>
+            {% endif %}
+            
         </div>
     </div>
 </div>
+
 
 <style>
     .rightbtm{
