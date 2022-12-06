@@ -115,7 +115,6 @@ form{
         </div>
         {% if favourites %}
         <div class="row cart-cont">
-            <!--<form action="/favourite" method="POST">-->
                 {% for favourite in favourites %}
                 <form action="/favourite" method="POST">
                 <div class="row cart-prod-cont" style="min-height:300px;">
@@ -145,9 +144,8 @@ form{
                         </a>
                     </div>
                 </form>
-            <!--</form>-->
             {% else %}
-                <div class="mt-5 d-flex justify-content-center align-items-center flex-grow-1">
+                <div class="mt-5 d-flex justify-content-center align-items-center flex-grow-1" style="padding-bottom:330px;">
                     <h4 class="display-5">No Favourites Found.</h4>
                 </div>
             {% endif %}

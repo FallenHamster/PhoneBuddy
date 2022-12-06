@@ -4,6 +4,7 @@ from wtforms import StringField, BooleanField, PasswordField, validators, Hidden
 from flask_wtf import Form
 from werkzeug.security import generate_password_hash, check_password_hash
 import math
+import numpy as np
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
@@ -201,7 +202,7 @@ def review():
                 cur = conn.cursor()
                 cur.execute("INSERT INTO Review (title, content, rating, smartphoneID, userID) VALUES (?,?,?,?,?)",(form.title.data, form.content.data, form.rating.data, smartphoneID, id[0]))
                 conn.commit()
-                message = "Review has been added successfully"
+                message = "You have posted a review."
                 flash(message,'review')
             return redirect(url_for('smartphone'))
         return render_template('review.html', form = form, model = model)
