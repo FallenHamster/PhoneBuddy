@@ -153,10 +153,17 @@ def smartphone():
     result = request.form.get('search')
     conn = get_db_connection()
     smartphones = conn.execute('SELECT * FROM Smartphone').fetchall()
+    ratinglist = []
     if request.method == 'POST':
-       smartphones = conn.execute("SELECT * FROM Smartphone WHERE brand = ? OR model = ?",(result,result)).fetchall()
+        smartphones = conn.execute("SELECT * FROM Smartphone WHERE brand = ? OR model = ? ",(result,result)).fetchall()
+    for smartphone in smartphones:
+        rating = conn.execute('SELECT rating FROM Review WHERE smartphoneID = ?',(smartphone[0],)).fetchall()
+        average_rating = np.mean(rating)
+        avgRating = format(average_rating,'.2f')
+        numberRating = float(avgRating)
+        ratinglist.append(numberRating)
     conn.close()
-    return render_template('smartphone.html', smartphones = smartphones)
+    return render_template('smartphone.html', smartphones = smartphones, ratinglist = ratinglist)
 
 @app.route('/smartphonedetail/<int:id>',methods = ['GET','POST'])
 def smartphonedetail(id):
@@ -167,6 +174,10 @@ def smartphonedetail(id):
         conn = get_db_connection()
         reviews = conn.execute('SELECT * FROM Review WHERE smartphoneID = ?',(id,)).fetchall()
         users = conn.execute('SELECT User.first_name,User.last_name FROM User INNER JOIN Review ON User.id = Review.userID AND Review.smartphoneID = ?',(id,)).fetchall()
+        rating = conn.execute('SELECT rating FROM Review WHERE smartphoneID = ?',(id,)).fetchall()
+        average_rating = np.mean(rating)
+        avgRating = format(average_rating,'.2f')
+        numberRating = float(avgRating)
         data = zip(reviews, users)
         if request.method == 'POST':
             if request.form['favourite'] == 'favourite':
@@ -176,14 +187,14 @@ def smartphonedetail(id):
                     if existed:
                         message = "Favourites has already existed."
                         flash(message,'Existed')
-                        return render_template('smartphonedetail.html', smartphone = smartphone, data = data)
+                        return render_template('smartphonedetail.html', smartphone = smartphone, data = data, numberRating = numberRating)
                     cur.execute('INSERT INTO Favourite (userID, smartphoneID) VALUES (?, ?)',(userid[0],id))
                     cur.close()
                     message = "Smartphone has been added to favourite." 
                     flash(message,'Added')
-                    return render_template('smartphonedetail.html', smartphone = smartphone, data = data)
-            return render_template('smartphonedetail.html', smartphone = smartphone, data = data)
-        return render_template('smartphonedetail.html',smartphone = smartphone, data = data)
+                    return render_template('smartphonedetail.html', smartphone = smartphone, data = data, numberRating = numberRating)
+            return render_template('smartphonedetail.html', smartphone = smartphone, data = data, numberRating = numberRating)
+        return render_template('smartphonedetail.html',smartphone = smartphone, data = data, numberRating = numberRating)
     else:
         message = "Unauthorized Access! Please login to continue."
         flash(message,'InvalidLogin')
@@ -229,7 +240,14 @@ def favourite():
                 message = "All favourites has been removed successfully"
                 flash(message,'removed')
         favourites = conn.execute('SELECT Favourite.id, Favourite.smartphoneID, Smartphone.brand, Smartphone.model, Smartphone.lowprice, Smartphone.highprice, Smartphone.image_URL FROM Favourite INNER JOIN Smartphone ON Favourite.userID = ? AND Favourite.smartphoneID = Smartphone.id',(userid)).fetchall()
-        return render_template('favourite.html',favourites = favourites)
+        ratinglist = []
+        for favourite in favourites:
+            rating = conn.execute('SELECT rating FROM Review WHERE smartphoneID = ?',(favourite[1],)).fetchall()
+            average_rating = np.mean(rating)
+            avgRating = format(average_rating,'.2f')
+            numberRating = float(avgRating)
+            ratinglist.append(numberRating)
+        return render_template('favourite.html',favourites = favourites, ratinglist = ratinglist)
     else:
         message = "Unauthorized Access! Please login to continue."
         flash(message,'InvalidLogin')

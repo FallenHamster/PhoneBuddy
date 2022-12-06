@@ -2,13 +2,6 @@
 
 {% block main %}
 
-<style>
-    .right{
-        position: absolute;
-        right: 0;
-    }
-</style>
-
 <main class="position-relative">
     <div class="container">
         <h1 class="fw-bold text-center my-4">Smartphone</h1>
@@ -19,45 +12,48 @@
                     <input class="form-control py-2" placeholder="Search for smartphone" name="search" id="search"/>
                     <button type="submit" class="btn btn-secondary text-muted">Search</button>
                 </div>
-                <!--<div class="dropdown right">
-                    <select id="sortDropdown" class="btn btn-secondary dropdown-toggle text-muted" data-bs-toggle="dropdown" aria-expanded="false" name="sort">
-                        <option value="low">
-                            Lowest Price
-                        </option>
-                        <option value="high">
-                            Highest Price
-                        </option>
-                    </select>
-                </div>-->
             </div>
         </form>
 
         {% if smartphones %}
         <!--Display All Smartphone-->
-        <div class="d-flex">
-            <div class="row row-cols-3">
-            {% for smartphone in smartphones %}
-            <div class="col mb-5 ">
-                <div class="card " style="width: 20rem;">
-                    <a href="{{ url_for('smartphonedetail', id=smartphone['id']) }}">
-                        <img src="{{ url_for('static',filename = smartphone['image_URL']) }}" class="card-img-top" style="height: 250px;">
-                    </a>
-                    <div class="card-body">
+        <div class="row row-cols-3">
+        {% for smartphone in smartphones %}
+        <div class="col mb-5 ">
+            <div class="card " style="width: 23rem;">
+                <a href="{{ url_for('smartphonedetail', id=smartphone['id']) }}">
+                    <img src="{{ url_for('static',filename = smartphone['image_URL']) }}" class="card-img-top" style="height: 250px;">
+                </a>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
                         <a href="{{ url_for('smartphonedetail', id=smartphone['id']) }}">
-                            <h5 class="card-title">{{ smartphone['model'] }}</h5>
+                            <h6 class="card-title">{{ smartphone['model'] }}</h6>
                         </a>
-                        <div class="mt-5 d-flex justify-content-between">
-                            <p class="text-muted">{{ smartphone['brand'] }}</p>
-                            <p>RM{{ smartphone['lowprice'] }} - {{ smartphone['highprice'] }}</p>
-                        </div>
+                        <span class="gig-rating text-body-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15"  style="color:#ffb33e; margin-bottom:3px;">
+                                <path
+                                    fill="currentColor"
+                                    d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"
+                                ></path>
+                            </svg>
+                            {% if ratinglist[loop.index - 1] > 0 %}
+                                <a style="color:#ffb33e;">{{ ratinglist[loop.index - 1] }}</a>
+                            {% else %}
+                                <a style="color:#ffb33e;">No Review</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="mt-5 d-flex justify-content-between">
+                        <p class="text-muted">{{ smartphone['brand'] }}</p>
+                        <p>RM{{ smartphone['lowprice'] }} - {{ smartphone['highprice'] }}</p>
                     </div>
                 </div>
             </div>
-            {% endfor %}
-            </div>
+        </div>
+        {% endfor %}
         </div>
         {% else %}
-            <div class="mt-5 d-flex justify-content-center align-items-center flex-grow-1">
+            <div class="mt-5 d-flex justify-content-center align-items-center flex-grow-1" style="padding-bottom:400px;">
                 <h4 class="display-5">No matched results.</h4>
             </div>
         {% endif %}
