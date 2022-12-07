@@ -241,6 +241,18 @@ def favourite():
                 flash(message,'removed')
         favourites = conn.execute('SELECT Favourite.id, Favourite.smartphoneID, Smartphone.brand, Smartphone.model, Smartphone.lowprice, Smartphone.highprice, Smartphone.image_URL FROM Favourite INNER JOIN Smartphone ON Favourite.userID = ? AND Favourite.smartphoneID = Smartphone.id',(userid)).fetchall()
         ratinglist = []
+        #Select all the brand from smartphone
+        brands = conn.execute('SELECT DISTINCT brand FROM Smartphone').fetchall()
+        counts = []
+        favBrand = []
+        for favourite in favourites:
+            favBrand.append(favourite[2])
+        for brand in brands:
+            count = favBrand.count(brand[0])
+            counts.append(count)
+        favourite_count = zip(brands, counts)
+        for brand,count in favourite_count:
+            print(f"{count} {brand[0]}")
         for favourite in favourites:
             rating = conn.execute('SELECT rating FROM Review WHERE smartphoneID = ?',(favourite[1],)).fetchall()
             average_rating = np.mean(rating)
