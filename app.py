@@ -67,9 +67,12 @@ def get_smartphone(smartphone_id):
 
 @app.route('/')
 def home():
-    #If not loggedin, then redirect to login page
-    #if session.get('loggedin') == False:
-        #return redirect('/login')
+    if session.get('loggedin') == True:
+        favourite_count = session['favouritelist']
+        max_favourite = max(favourite_count)
+        conn = get_db_connection()
+        smartphones = conn.execute('SELECT * FROM Smartphone WHERE brand = ?',(max_favourite[1],))
+        return render_template('home.html', max_favourite = max_favourite, smartphones = smartphones)
     return render_template('home.html')
 
 @app.route('/login', methods = ['GET','POST'])
@@ -162,6 +165,9 @@ def smartphone():
         avgRating = format(average_rating,'.2f')
         numberRating = float(avgRating)
         ratinglist.append(numberRating)
+    session['highestRating'] = ratinglist
+    testing = session['highestRating']
+    print(testing)
     conn.close()
     return render_template('smartphone.html', smartphones = smartphones, ratinglist = ratinglist)
 
@@ -241,7 +247,6 @@ def favourite():
                 flash(message,'removed')
         favourites = conn.execute('SELECT Favourite.id, Favourite.smartphoneID, Smartphone.brand, Smartphone.model, Smartphone.lowprice, Smartphone.highprice, Smartphone.image_URL FROM Favourite INNER JOIN Smartphone ON Favourite.userID = ? AND Favourite.smartphoneID = Smartphone.id',(userid)).fetchall()
         ratinglist = []
-        #Select all the brand from smartphone
         brands = conn.execute('SELECT DISTINCT brand FROM Smartphone').fetchall()
         counts = []
         favBrand = []
@@ -251,8 +256,11 @@ def favourite():
             count = favBrand.count(brand[0])
             counts.append(count)
         favourite_count = zip(brands, counts)
+        favourite_list = []
         for brand,count in favourite_count:
             print(f"{count} {brand[0]}")
+            favourite_list.append([count,brand[0]])
+        session['favouritelist'] = favourite_list
         for favourite in favourites:
             rating = conn.execute('SELECT rating FROM Review WHERE smartphoneID = ?',(favourite[1],)).fetchall()
             average_rating = np.mean(rating)

@@ -75,19 +75,8 @@
         font-weight: 600;
         letter-spacing: 1.2px;
     }
-    .third-ban{
-        height: 700px;
-        display:flex;
-    }
     .third-ban > *{
         padding:0px;
-    }
-    .third-ban img{
-        height: 700px;
-        object-fit: fill;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
     }
     .third-ban-desc{
         text-align: center;
@@ -120,6 +109,7 @@
         text-decoration: none;
         box-shadow: 0px 0px 4px 2px gray;
     }
+
 </style>
 
 <div class="cont-sec">
@@ -148,21 +138,46 @@
         </div>
     </div>
 
-    <!--3rd Video banner-->
-    <div class="third-ban d-flex justify-content-between">
-        <img src="static\The-back-of-the-Google-Pixel-6a-held-in-a-persons-hand.jpg" class="col-lg-7" style="padding:0px;">
-
-        <div class="third-ban-desc mx-auto">
-            <div>
-                <h3>NON-STOP</h3>
-                <h3 style="margin-bottom: 25px;">Learning</h3>
-                <h5>Curious About Smartphone ?</h5>
-                <h5>Want To Know What Your Ideal Phone?</h5>
-                <h5>Get Your Answers Here.</h5>
-                <a href="#">Learn More</a>
+    <!--You may interested-->
+    {% if session.loggedin == true %}
+    <div class="mx-5 mt-3 ">
+        <h3 class="fw-light mb-3">You may interested...</h3>
+        <hr>
+        <div class="row row-cols-3">
+            {% for smartphone in smartphones %}
+            <div class="col mb-5 ">
+                <div class="card " style="width: 23rem;">
+                    <a href="{{ url_for('smartphonedetail', id=smartphone['id']) }}">
+                        <img src="{{ url_for('static',filename = smartphone['image_URL']) }}" class="card-img-top" style="height: 250px;">
+                    </a>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('smartphonedetail', id=smartphone['id']) }}">
+                                <h6 class="card-title">{{ smartphone['model'] }}</h6>
+                            </a>
+                        </div>
+                        <div class="mt-5 d-flex justify-content-between">
+                            <p class="text-muted">{{ smartphone['brand'] }}</p>
+                            <p>RM{{ smartphone['lowprice'] }} - {{ smartphone['highprice'] }}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
+            {% endfor %}
         </div>
     </div>
+    {% endif %}
+    <!--3rd banner-->
+    
+    <div class="third-ban-desc text-center my-5">
+        <h3>NON-STOP</h3>
+        <h3 style="margin-bottom: 25px;">Learning</h3>
+        <h5>Curious About Smartphone ?</h5>
+        <h5>Want To Know What Your Ideal Phone?</h5>
+        <h5>Get Your Answers Here.</h5>
+        <a href="#">Learn More</a>
+    </div>
+    
 </div>
 
 <style>
