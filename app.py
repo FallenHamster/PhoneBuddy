@@ -72,7 +72,21 @@ def home():
         max_favourite = max(favourite_count)
         conn = get_db_connection()
         smartphones = conn.execute('SELECT * FROM Smartphone WHERE brand = ?',(max_favourite[1],))
-        return render_template('home.html', max_favourite = max_favourite, smartphones = smartphones)
+        smartphoneList = []
+        ratinglist = []
+        for smartphone in smartphones:
+            rating = conn.execute('SELECT rating FROM Review WHERE smartphoneID = ?',(smartphone[0],)).fetchall()
+            average_rating = np.mean(rating)
+            avgRating = format(average_rating,'.2f')
+            numberRating = float(avgRating)
+            smartphone_dict = {'id' :smartphone[0], 'avgRating' :numberRating}
+            smartphoneList.append(smartphone_dict)
+        sortedList = sorted(smartphoneList, key = lambda d:d['avgRating'], reverse=True)
+        for smartphone in sortedList:
+            ratinglist.append(smartphone['avgRating'])
+        print(ratinglist)
+        sortedSmartphones = conn.execute('SELECT * FROM Smartphone WHERE id = ?',(sortedList[0]['id'],)).fetchall()
+        return render_template('home.html',sortedSmartphones = sortedSmartphones, ratinglist = ratinglist)
     return render_template('home.html')
 
 @app.route('/login', methods = ['GET','POST'])
@@ -165,9 +179,6 @@ def smartphone():
         avgRating = format(average_rating,'.2f')
         numberRating = float(avgRating)
         ratinglist.append(numberRating)
-    session['highestRating'] = ratinglist
-    testing = session['highestRating']
-    print(testing)
     conn.close()
     return render_template('smartphone.html', smartphones = smartphones, ratinglist = ratinglist)
 
