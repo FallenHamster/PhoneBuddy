@@ -67,9 +67,6 @@ INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highpri
 'Li-Ion 3095 mAH',5143,5300,'6.1 inches','120 Hz','Made for low light, the wide camera adds a wider aperture and our largest sensor yet. Ultra Wide gets a wider aperture, a faster sensor, and all-new autofocus. 
 Telephoto now has Night mode.','./iphone13pro.jpg');
 INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highprice,screenSize,refreshRate,description,image_URL) VALUES 
-('Apple','Iphone 12','Hexa-core (2x3.1 Ghz Firestorm + 4x1.8 Ghz Icestorm','64GB 4GB RAM, 128GB 4GB RAM, 256GB 4GB RAM','Black, White, Red, Green, Blue, Purple','Li-Ion 2815 mAH',
-2179,3199,'6.1 inches','60Hz','The A14 chip in the iPhone 12 includes a faster and more powerful Image Signal Processor that enabled new camera functionality.','./iphone12.jpg');
-INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highprice,screenSize,refreshRate,description,image_URL) VALUES 
 ('Samsung','Samsung Galaxy S21 5G','Octa-core (1x2.9 GHz Cortex-X1 & 3x2.80 GHz Cortex-A78 & 4x2.2 GHz Cortex-A55)','128GB 8GB RAM, 256GB 8GB RAM',
 'Phantom Gray, Phantom White, Phantom Violet, Phantom Pink','Li-Ion 4000 mAh', 2199, 3699,'6.2 inches','120Hz','The Samsung Galaxy S21 
 5G is a smartphone that was tested with the Android 11 operating system. This model weighs 6 ounces, has a 6.2 inch display, 12-megapixel main camera, 
