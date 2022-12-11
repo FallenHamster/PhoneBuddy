@@ -61,25 +61,33 @@ def get_smartphone(smartphone_id):
 @app.route('/')
 def home():
     if session.get('loggedin') == True:
-        favourite_count = session['favouritelist']
-        max_favourite = max(favourite_count)
-        conn = get_db_connection()
-        smartphones = conn.execute('SELECT * FROM Smartphone WHERE brand = ?',(max_favourite[1],))
-        smartphoneList = []
-        ratinglist = []
-        for smartphone in smartphones:
-            rating = conn.execute('SELECT rating FROM Review WHERE smartphoneID = ?',(smartphone[0],)).fetchall()
-            average_rating = np.mean(rating)
-            avgRating = format(average_rating,'.2f')
-            numberRating = float(avgRating)
-            smartphone_dict = {'id' :smartphone[0], 'avgRating' :numberRating}
-            smartphoneList.append(smartphone_dict)
-        sortedList = sorted(smartphoneList, key = lambda d:d['avgRating'], reverse=True)
-        for smartphone in sortedList:
-            ratinglist.append(smartphone['avgRating'])
-        print(ratinglist)
-        sortedSmartphones = conn.execute('SELECT * FROM Smartphone WHERE id = ?',(sortedList[0]['id'],)).fetchall()
-        return render_template('home.html',sortedSmartphones = sortedSmartphones, ratinglist = ratinglist)
+        if session.get('favouritelist'):
+            favourite_count = session['favouritelist']
+            max_favourite = max(favourite_count)
+            if max_favourite[0] == 0:
+                print(max_favourite[0])
+                session['favourite'] = False
+                return render_template('home.html')
+            session['favourite'] = True
+            conn = get_db_connection()
+            smartphones = conn.execute('SELECT * FROM Smartphone WHERE brand = ?',(max_favourite[1],))
+            smartphoneList = []
+            ratinglist = []
+            for smartphone in smartphones:
+                rating = conn.execute('SELECT rating FROM Review WHERE smartphoneID = ?',(smartphone[0],)).fetchall()
+                average_rating = np.mean(rating)
+                avgRating = format(average_rating,'.2f')
+                numberRating = float(avgRating)
+                smartphone_dict = {'id' :smartphone[0], 'avgRating' :numberRating}
+                smartphoneList.append(smartphone_dict)
+            sortedList = sorted(smartphoneList, key = lambda d:d['avgRating'], reverse=True)
+            for smartphone in sortedList:
+                ratinglist.append(smartphone['avgRating'])
+            recommend = []
+            for x in range(3):
+                recommendSmartphone = conn.execute('SELECT * FROM Smartphone WHERE id = ?',(sortedList[x]['id'],)).fetchall()
+                recommend.append(recommendSmartphone)
+            return render_template('home.html',recommend = recommend, ratinglist = ratinglist)
     return render_template('home.html')
 
 @app.route('/login', methods = ['GET','POST'])

@@ -29,6 +29,12 @@ CREATE TABLE Review (
     FOREIGN KEY(userID) REFERENCES User(id)
 );
 
+INSERT INTO Review(title,content,rating,smartphoneID,userID) VALUES ('Overall is quite good','The performance of the smartphone is good',4.0,1,3);
+INSERT INTO Review(title,content,rating,smartphoneID,userID) VALUES ('Good quality','The smartphone is recommended',5.0,2,3);
+INSERT INTO Review(title,content,rating,smartphoneID,userID) VALUES ('Can be improved','Some part of the smartphone can be improved',2.0,3,3);
+INSERT INTO Review(title,content,rating,smartphoneID,userID) VALUES ('Bad','The smartphone is not recommended',1.0,4,3);
+INSERT INTO Review(title,content,rating,smartphoneID,userID) VALUES ('Normal','Good to use',3.0,5,3);
+
 DROP TABLE IF EXISTS Smartphone;
 
 CREATE TABLE Smartphone (

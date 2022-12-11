@@ -1,20 +1,9 @@
 --To Run Command--
 python -m flask run
 
-<script>
-    $(function() {
-       $('.flash').delay(500).fadeIn('normal', function() {
-          $(this).delay(2500).fadeOut();
-       });
-    });
-</script>
 
 --To install--
 pip install flask
 pip install wtforms
 pip install flask_login
 
-To Do:
-
-To Fix:
-Filter By

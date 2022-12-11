@@ -140,20 +140,22 @@
 
     <!--You may interested-->
     {% if session.loggedin == true %}
+    {% if session.favouritelist %}
+    {% if session.favourite == true %}
     <div class="mx-5 mt-3 ">
         <h3 class="fw-light mb-3">You may interested...</h3>
         <hr>
         <div class="row row-cols-3">
-            {% for smartphone in sortedSmartphones %}
+            {% for smartphone in recommend %}
             <div class="col mb-5 ">
                 <div class="card " style="width: 23rem;">
-                    <a href="{{ url_for('smartphonedetail', id=smartphone['id']) }}">
-                        <img src="{{ url_for('static',filename = smartphone['image_URL']) }}" class="card-img-top" style="height: 250px;">
+                    <a href="{{ url_for('smartphonedetail', id=smartphone[0]['id']) }}">
+                        <img src="{{ url_for('static',filename = smartphone[0]['image_URL']) }}" class="card-img-top" style="height: 250px;">
                     </a>
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <a href="{{ url_for('smartphonedetail', id=smartphone['id']) }}">
-                                <h6 class="card-title">{{ smartphone['model'] }}</h6>
+                            <a href="{{ url_for('smartphonedetail', id=smartphone[0]['id']) }}">
+                                <h6 class="card-title">{{ smartphone[0]['model'] }}</h6>
                             </a>
                             <span class="gig-rating text-body-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15"  style="color:#ffb33e; margin-bottom:3px;">
@@ -170,8 +172,8 @@
                             </span>
                         </div>
                         <div class="mt-5 d-flex justify-content-between">
-                            <p class="text-muted">{{ smartphone['brand'] }}</p>
-                            <p>RM{{ smartphone['lowprice'] }} - {{ smartphone['highprice'] }}</p>
+                            <p class="text-muted">{{ smartphone[0]['brand'] }}</p>
+                            <p>RM{{ smartphone[0]['lowprice'] }} - {{ smartphone[0]['highprice'] }}</p>
                         </div>
                     </div>
                 </div>
@@ -179,6 +181,8 @@
             {% endfor %}
         </div>
     </div>
+    {% endif %}
+    {% endif %}
     {% endif %}
     <!--3rd banner-->
     
