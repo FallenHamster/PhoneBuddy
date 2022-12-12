@@ -366,6 +366,10 @@ def manageSmartphone():
         flash(message,'InvalidPermission')
         return redirect('/')
 
+@app.route('/idealFirst')
+def idealFirst():
+    return render_template('idealFirst.html')
+
 if __name__ == '__main__':
     app.run(debug = True)
 
