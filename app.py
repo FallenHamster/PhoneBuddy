@@ -142,6 +142,22 @@ def logout():
     flash(message,"loggedout")
     return redirect(url_for('home'))
 
+@app.route('/review')
+def review():
+    #smartphoneID = session['smartphoneID']
+    #id = session['id']
+    form = ReviewForm(request.form)
+    if request.method == 'POST' and form.validate():
+        with sql.connect("database.db") as conn:
+            #cur = conn.cursor()
+            #cur.execute("INSERT INTO Review (Title, Content, rating, smartphoneid, userid) VALUES (?,?,?,?,?)",(form.title.data, form.content.data, form.rating.data, smartphoneId[0], id[0]))
+            conn.commit()
+            conn.close()
+            message = "Review has been added successfully"
+            flash(message,'review')
+        return redirect(url_for('smartphone'))
+    return render_template('review.html', form = form)
+
 @app.route('/edit',methods = ['GET','POST'])
 def edit():
     if session.get('loggedin') == True:

@@ -6,4 +6,5 @@ python -m flask run
 pip install flask
 pip install wtforms
 pip install flask_login
+pip install flask_wtf
 
