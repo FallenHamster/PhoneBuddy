@@ -21,6 +21,8 @@ class UserForm(Form):
     password = PasswordField('password',[validators.Length(min = 6), validators.DataRequired(), validators.EqualTo('password_confirmation', message = 'Password Must Match')])
     password_confirmation = PasswordField('password_confirmation',[validators.DataRequired()])
 
+
+
 class LoginForm(Form):
     email = StringField('email',[validators.DataRequired()])
     password = PasswordField('password',[validators.DataRequired(),validators.Length(min = 6)])
