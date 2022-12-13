@@ -382,8 +382,17 @@ def manageSmartphone():
         flash(message,'InvalidPermission')
         return redirect('/')
 
-@app.route('/idealFirst')
+@app.route('/idealFirst',methods = ['GET','POST'])
 def idealFirst():
+    if request.method == 'POST':
+        os = request.form.get('os')
+        ram = request.form.get('memory')
+        battery = request.form['battery']
+        screensize = request.form['screensize']
+        price = request.form['price']
+        colour = request.form.get('colour')
+        print(os, ram,battery, screensize, price, colour)
+        return render_template('idealFirst.html')
     return render_template('idealFirst.html')
 
 if __name__ == '__main__':
