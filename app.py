@@ -5,9 +5,14 @@ from flask_wtf import Form
 from werkzeug.security import generate_password_hash, check_password_hash
 import math
 import numpy as np
+import pickle
+import sklearn
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
+
+#load the model
+model = pickle.load(open("KNN_model.pkl","rb"))
 
 class UserForm(Form):
     first_name = StringField('first_name',[validators.DataRequired()])
@@ -15,6 +20,8 @@ class UserForm(Form):
     email = StringField('email',[validators.DataRequired()])
     password = PasswordField('password',[validators.Length(min = 6), validators.DataRequired(), validators.EqualTo('password_confirmation', message = 'Password Must Match')])
     password_confirmation = PasswordField('password_confirmation',[validators.DataRequired()])
+
+
 
 class LoginForm(Form):
     email = StringField('email',[validators.DataRequired()])
@@ -375,7 +382,14 @@ def idealFirst():
         screensize = request.form['screensize']
         price = request.form['price']
         colour = request.form.get('colour')
-        print(os, ram,battery, screensize, price, colour)
+        features_vals = [os, ram, battery, screensize, price, colour]
+        float_features = [float(x) for x in features_vals]
+        features = [np.array(float_features)]
+        prediction = model.predict(features)
+        smartphones = ['Apple iphone 14 pro max', 'Apple iphone 14 pro', 'Apple iphone 14', 'Samsung Galaxy A04', 'Samsung Galaxy Z Flip 4', 'Samsung Galaxy A23 5G', 'Xiaomi Poco F4', 'Xiaomi Mix 4','Apple iphone 13','Apple iphone se','Apple iphone 13 pro','Samsung Galaxy s21 5G','Samsung Galaxy s22 ultra 5G','Samsung Galaxy Z Flip','Samsung Galaxy s21 ultra 5G','Samsung Galaxy A13','Huawei P30','Huawei mate 50','Huawei P40','Huawei P50','Huawei mate 40','Xiaomi 12 pro','Xiaomi Mi 11','Xiaomi 12T pro','Xiaomi 10T pro 5G','Xiaomi 11T pro','Lenovo legion pro','Lenovo K14 Plus','Lenovo Legion y70','Lenovo K13 pro']
+        smartphone = smartphones[prediction[0]]
+        message = smartphone
+        flash(message,'recommendation')
         return render_template('idealFirst.html')
     return render_template('idealFirst.html')
 
