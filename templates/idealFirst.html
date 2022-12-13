@@ -77,8 +77,8 @@
                 <div class="">
                     <select id="os" style="width:500px;" name="os">
                         <option value="choose" selected>Choose Your Os</option>
-                        <option value="ios">iOS</option>
-                        <option value="android">Android</option>
+                        <option value="0">iOS</option>
+                        <option value="1">Android</option>
                     </select>
                 </div>
             </div>
@@ -102,15 +102,15 @@
             <div class="form-floating mb-4">
                 <label for="battery">Battery Size</label>
                 <br/>
-                <div class="battery text-center">3000</div>
-                <input type="range" class="custom-range" min="3000" max="5500" step="100" id="customRange3" name="battery" value="3000" style="width: 100%">
+                <div class="battery text-center">2000</div>
+                <input type="range" class="custom-range" min="2000" max="5500" step="100" id="customRange3" name="battery" value="2000" style="width: 100%">
             </div>
 
             <div class="form-floating mb-4">
                 <label for="screensize">Screen Size</label>
                 <br/>
-                <div class="screensize text-center">6.0</div>
-                <input type="range" class="custom-range" min="6.0" max="7.0" step="0.1" id="customRange4" name="screensize" value="6.0" style="width: 100%">
+                <div class="screensize text-center">4.7</div>
+                <input type="range" class="custom-range" min="4.7" max="7.0" step="0.1" id="customRange4" name="screensize" value="4.7" style="width: 100%">
             </div>
 
             <div class="form-floating mb-4">
@@ -126,16 +126,19 @@
                 <div class="">
                     <select id="colour" style="width:500px;" name="colour">
                         <option value="choose" selected>Choose Your Colour</option>
-                        <option value="Black">Black</option>
-                        <option value="Silver">Silver</option>
-                        <option value="Gold">Gold</option>
-                        <option value="Purple">Purple</option>
-                        <option value="White">White</option>
-                        <option value="Blue">Blue</option>
-                        <option value="Red">Red</option>
-                        <option value="Copper">Copper</option>
-                        <option value="Green">Green</option>
-                        <option value="Peach">Peach</option>
+                        <option value="0">Black</option>
+                        <option value="1">Silver</option>
+                        <option value="2">Gold</option>
+                        <option value="3">Purple</option>
+                        <option value="4">White</option>
+                        <option value="5">Blue</option>
+                        <option value="6">Red</option>
+                        <option value="7">Copper</option>
+                        <option value="8">Green</option>
+                        <option value="9">Peach</option>
+                        <option value="10">Pink</option>
+                        <option value="11">Grey</option>
+                        <option value="12">Orange</option>
                     </select>
                 </div>
             </div>
@@ -145,6 +148,34 @@
     </form>
 
 </div>
+
+{% with recommend = get_flashed_messages(category_filter=["recommendation"]) %}
+{% if recommend %}
+    {%- for msg in recommend %}
+    <div class="position-relative">
+        <div class="center flash" >
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                <h4>Smartphone recommended !</h4>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+                <p>This may be your ideal phone : <strong>{{ msg }}</strong></p>
+            </div>
+        </div>
+    </div>
+    {% endfor -%}
+{% endif %}
+{% endwith %}
+
+<style>
+.center{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
+</style>
 
 <script>
     $( document ).ready(function() {
