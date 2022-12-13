@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Ideal Smartphone {% endblock %}
+
+{% block main %}
+<div class="m-auto py-5" style="min-width: 500px;">
+    <form action="/" method="POST">
+        <div>
+            <h2 class="text-center fw-bold fs-1 mb-4 p-0 m-0">PhoneBuddy</h2>
+
+            <h3 class="text-center fw-light mb-4">Ideal Phone</h3>
+
+            <div class="form-floating mb-4">
+                <label for="os">Operating System</label>
+                <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle text-body" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:500px;">
+                    Choose Your OS
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" style="width:500px;" value="ios">iOS</a>
+                    <a class="dropdown-item" style="width:500px;" value="android">Android</a>
+                </div>
+                </div>
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="memory">Memory Size</label>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle text-body" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:500px;">
+                        Choose Your Memory Size
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">32</a>
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">64</a>
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">128</a>
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">256</a>
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">512</a>
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">1000</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="battery">Battery Size</label>
+                <br/>
+                <div class="battery text-center">3000</div>
+                <input type="range" class="custom-range" min="3000" max="5500" step="100" id="customRange3" name="battery" value="3000" style="width: 100%">
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="screensize">Screen Size</label>
+                <br/>
+                <div class="screensize text-center">6.0</div>
+                <input type="range" class="custom-range" min="6.0" max="7.0" step="0.1" id="customRange4" name="screensize" value="6.0" style="width: 100%">
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="price">Price</label>
+                <br/>
+                <div class="price text-center">100</div>
+                <input type="range" class="custom-range" min="100" max="10000" step="100" id="customRange5" name="price" value="100" style="width: 100%">
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="memory">Colour</label>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle text-body" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:500px;">
+                        Choose Your Colour
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">Black</a>
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">Silver</a>
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">Gold</a>
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">Purple</a>
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">White</a>
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">Blue</a>
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">Red</a>
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">Copper</a>
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">Green</a>
+                        <a class="dropdown-item text-body" href="#" style="width:500px;">Peach</a>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary d-block w-100 py-3 mt-5">Recommend</button>
+        </div>
+    </form>
+
+</div>
+
+<script>
+    $( document ).ready(function() {
+        $('#customRange5').on('input', function(){
+             v = $('#customRange5').val();
+             console.log(v);
+             $('div.price').text(v);
+        });
+    });
+
+    $( document ).ready(function() {
+        $('#customRange4').on('input', function(){
+             v = $('#customRange4').val();
+             console.log(v);
+             $('div.screensize').text(v);
+        });
+    });
+
+    $( document ).ready(function() {
+        $('#customRange3').on('input', function(){
+             v = $('#customRange3').val();
+             console.log(v);
+             $('div.battery').text(v);
+        });
+    });
+</script>
+{% endblock %}

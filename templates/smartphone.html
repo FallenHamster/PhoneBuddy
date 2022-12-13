@@ -2,94 +2,99 @@
 
 {% block main %}
 
-<style>
-    .right{
-        position: absolute;
-        right: 0;
-    }
-</style>
-
 <main class="position-relative">
     <div class="container">
         <h1 class="fw-bold text-center my-4">Smartphone</h1>
-        <form action="/search" method="POST">
+        <form action="/smartphone" method="POST">
             <div class="mb-5 d-flex position-relative">
                 <!-- Search -->
                 <div class="input-group w-50 mx-auto">
                     <input class="form-control py-2" placeholder="Search for smartphone" name="search" id="search"/>
                     <button type="submit" class="btn btn-secondary text-muted">Search</button>
                 </div>
-
-                <div class="dropdown right">
-                    <select id="sortDropdown" class="btn btn-secondary dropdown-toggle text-muted" data-bs-toggle="dropdown" aria-expanded="false" name="sort">
-                        <option value="low">
-                            Lowest Price
-                        </option>
-                        <option value="high">
-                            Highest Price
-                        </option>
-                    </select>
-                </div>
             </div>
         </form>
 
+        {% if smartphones %}
         <!--Display All Smartphone-->
-        <div class="d-flex">
-            {% for smartphone in smartphones %}
-            {% if smartphone %}
-            <div class="row row-cols-4 mb-5">
-                <div class="card mr-5" style="width: 20rem;">
-                    <a href="#">
-                        <img src="{{ url_for('static',filename = smartphone['image_URL']) }}" class="card-img-top" style="height: 250px;">
-                    </a>
-                    <div class="card-body">
-                        <a href="#">
-                            <h5 class="card-title">{{ smartphone['model'] }}</h5>
+        <div class="row row-cols-3">
+        {% for smartphone in smartphones %}
+        <div class="col mb-5 ">
+            <div class="card " style="width: 23rem;">
+                <a href="{{ url_for('smartphonedetail', id=smartphone['id']) }}">
+                    <img src="{{ url_for('static',filename = smartphone['image_URL']) }}" class="card-img-top" style="height: 250px;">
+                </a>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('smartphonedetail', id=smartphone['id']) }}">
+                            <h6 class="card-title">{{ smartphone['model'] }}</h6>
                         </a>
-                        <div class="mt-5 d-flex justify-content-between">
-                            <p class="text-muted">{{ smartphone['brand'] }}</p>
-                            <p class="fw-bold">{{ smartphone['lowprice'] }} - {{ smartphone['highprice'] }}</p>
-                        </div>
+                        <span class="gig-rating text-body-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15"  style="color:#ffb33e; margin-bottom:3px;">
+                                <path
+                                    fill="currentColor"
+                                    d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"
+                                ></path>
+                            </svg>
+                            {% if ratinglist[loop.index - 1] > 0 %}
+                                <a style="color:#ffb33e;">{{ ratinglist[loop.index - 1] }}</a>
+                            {% else %}
+                                <a style="color:#ffb33e;">No Review</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="mt-5 d-flex justify-content-between">
+                        <p class="text-muted">{{ smartphone['brand'] }}</p>
+                        <p>RM{{ smartphone['lowprice'] }} - {{ smartphone['highprice'] }}</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-auto">
-            </div>
-            {% endif %}
-            {% endfor %}
         </div>
-
-    
-        <!--Searched Result-->
-        <div class="d-flex">
-            {% for smartphone in searchsmartphones %}
-            {% if smartphone == NULL %}
-            <div class="row row-cols-4 mb-5">
-                <div class="card mr-5" style="width: 20rem;">
-                    <a href="#">
-                        <img src="{{ url_for('static',filename = smartphone['image_URL']) }}" class="card-img-top" style="height: 250px;">
-                    </a>
-                    <div class="card-body">
-                        <a href="#">
-                            <h5 class="card-title">{{ smartphone['model'] }}</h5>
-                        </a>
-                        <div class="mt-5 d-flex justify-content-between">
-                            <p class="text-muted">{{ smartphone['brand'] }}</p>
-                            <p class="fw-bold">{{ smartphone['lowprice'] }} - {{ smartphone['highprice'] }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-auto">
-            </div>
-            {% else %}
-            <div class="mt-5 d-flex justify-content-center align-items-center flex-grow-1">
+        {% endfor %}
+        </div>
+        {% else %}
+            <div class="mt-5 d-flex justify-content-center align-items-center flex-grow-1" style="padding-bottom:400px;">
                 <h4 class="display-5">No matched results.</h4>
             </div>
-            {% endif %}
-            {% endfor %}
-        </div>
+        {% endif %}
+        
     </div>
 </main>
 
+
+<style>
+    .rightbtm{
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        padding-right: 10px;
+        padding-bottom: 10px;
+    }
+</style>
+
+{% with review = get_flashed_messages(category_filter=["review"]) %}
+{% if review %}
+    {%- for msg in review %}
+    <div class="position-relative">
+        <div class="rightbtm flash" >
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <h4>Posted a review successfully!</h4>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+                <p>{{ msg }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor -%}
+{% endif %}
+{% endwith %}
+
+<script>
+    $(function() {
+        $('.flash').delay(500).show(function() {
+            $(this).delay(2500).fadeOut();
+        });
+    });
+</script>
 {% endblock %}

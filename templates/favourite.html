@@ -4,9 +4,9 @@
 
 {% block main %}
 
-            <style>
-                .my-container{
-    max-width:1400px;
+<style>
+.my-container{
+    max-width:1000px;
     padding:0 4%;
 }
 .my-container .row{
@@ -107,38 +107,120 @@ form{
 }
 
 
+</style>
+<div class="cont-sec" style="padding-bottom:120px;">
+    <div class="container my-container">
+        <div class="row cart-row-1">
+            <h2>MY Favourite</h2>
+        </div>
+        {% if favourites %}
+        <div class="row cart-cont">
+                {% for favourite in favourites %}
+                <form action="/favourite" method="POST">
+                <div class="row cart-prod-cont" style="min-height:300px;">
+                    <div class="col-lg-4 col-md-12 cart-prod-col-1">
+                        <img src="{{ url_for('static',filename = favourite['image_URL']) }}" alt=""/>
+                    </div>
+                    <div class="col-lg-4 col-md-12 cart-prod-col-2 text-center">
+                        <div>
+                            <div>
+                                <a href="{{ url_for('smartphonedetail', id=favourite['smartphoneID']) }}" style="text-decoration:none;">{{ favourite['brand'] }} {{ favourite['model'] }}</a>
+                            </div>
+                            <p>RM {{ favourite['lowprice'] }} - {{ favourite['highprice'] }}</p>
+                            <span class="gig-rating text-body-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15"  style="color:#ffb33e; margin-bottom:3px;">
+                                    <path
+                                        fill="currentColor"
+                                        d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"
+                                    ></path>
+                                </svg>
+                                {% if ratinglist[loop.index - 1] > 0 %}
+                                    <a style="color:#ffb33e;"><small>{{ ratinglist[loop.index - 1] }}</small></a>
+                                {% else %}
+                                    <a style="color:#ffb33e;" ><small>No Review</small></a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 cart-prod-col-2">
+                        <button class="mx-auto link-button" type="submit" name="remove" value="remove" id="remove">Remove</button>
+                        <input type="hidden" name="id" value="{{ favourite['id'] }}" id="id">
+                    </div>
+                </div>
+                </form>
+                {% endfor %}
+                <form action="/favourite" method="POST">
+                    <div class="d-flex justify-content-between my-3"> 
+                        <a class="link-button" type="submit" name="back" href="/">Back</a>
+                        <a href="/favourite">
+                            <button class="link-button" type="submit" name="reset" value="reset" id="reset">Reset Favourite</button>
+                        </a>
+                    </div>
+                </form>
+            {% else %}
+                <div class="mt-5 d-flex justify-content-center align-items-center flex-grow-1" style="padding-bottom:330px;">
+                    <h4 class="display-5">No Favourites Found.</h4>
+                </div>
+            {% endif %}
+            
+        </div>
+    </div>
+</div>
 
-            </style>
-        <div class="cont-sec" style="padding-bottom:30px;">
-            <div class="container my-container">
-                <div class="row cart-row-1">
-                    <h2>MY Favourite</h2>
-                </div>
-                <div class="row cart-cont">
-                    <form action="/favourite" method="POST">
-                         
-                        <div class="row cart-prod-cont" style="min-height:300px;">
-                            <div class="col-lg-3 col-md-12 cart-prod-col-1">
-                                <img src="<%=currProd.getImagePath()%>" alt=""/>
-                            </div>
-                            <div class="col-lg-4 col-md-12 cart-prod-col-2">
-                                <div>
-                                    <div>
-                                        <a href="product-detail.jsp?id=<%=currProd.getModelID()%>" style="text-decoration:none;"><%=currProd.getModelName()%></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row link-cont">
-                                <input class="link-button" type="submit" name="reset" value="Reset Favourite" />
-                            </div>
-                        </div>
-                       
-                        <div class="row link-cont">
-                            <input class="link-button" type="submit" name="reset" value="Reset Favourite" />
-                        </div>
-                    </form>
-                </div>
+
+<style>
+    .rightbtm{
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        padding-right: 10px;
+        padding-bottom: 10px;
+    }
+</style>
+
+{% with removeFavourite = get_flashed_messages(category_filter=["removed"]) %}
+{% if removeFavourite %}
+    {%- for msg in removeFavourite %}
+    <div class="position-relative">
+        <div class="rightbtm flash" >
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <h4>Favourites removed successfully!</h4>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+                <p>{{ msg }}</p>
             </div>
         </div>
-    
-        {% endblock %}
+    </div>
+    {% endfor -%}
+{% endif %}
+{% endwith %}
+
+{% with removeOneFavourite = get_flashed_messages(category_filter=["removedOne"]) %}
+{% if removeOneFavourite %}
+    {%- for msg in removeOneFavourite %}
+    <div class="position-relative">
+        <div class="rightbtm flash" >
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <h4>Selected favourites removed successfully!</h4>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+                <p>{{ msg }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor -%}
+{% endif %}
+{% endwith %}
+
+<script>
+    $(function() {
+        $('.flash').delay(500).show(function() {
+            $(this).delay(2500).fadeOut();
+        });
+    });
+</script>
+
+
+{% endblock %}

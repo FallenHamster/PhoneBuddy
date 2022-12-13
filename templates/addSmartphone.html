@@ -5,12 +5,18 @@
 {% block main %}
 
 <div class="m-auto py-5" style="min-width: 500px;">
-    <form action="/register" method="POST">
+    <form action="/addSmartphone" method="POST">
         <div>
             <h2 class="text-center fw-bold fs-1 mb-4 p-0 m-0">PhoneBuddy</h2>
 
             <h3 class="text-center fw-light mb-4">Add Smartphone</h3>
 
+            <div class="form-floating mb-4 text-center" style="margin-left:80px;">
+                <input type="file" id="image_URL" name="image_URL" accept="image/*">
+            </div>
+            <div class="text-center mr-3">
+                <label for="image_URL" >Upload Smartphone image</label>
+            </div>
             <div class="form-floating mb-4">
                 <label for="brand">Brand</label>
                 <input id="brand" name="brand" class="form-control" type="text" placeholder="Brand" />
@@ -109,7 +115,7 @@
 
             <div class="form-floating mb-4">
                 <label for="screenSize">Screen Size</label>
-                <input id="screenSize" name="screenSize" class="form-control" type="text" placeholder="screenSize" />
+                <input id="screenSize" name="screenSize" class="form-control" type="text" placeholder="Screen Size" />
                 {% if form.screenSize.errors %}
                     <ul class="errors text-danger">
                     {% for error in form.screenSize.errors %}
@@ -121,7 +127,7 @@
 
             <div class="form-floating mb-4">
                 <label for="refreshRate">Refresh Rate</label>
-                <input id="refreshRate" name="refreshRate" class="form-control" type="text" placeholder="refreshRate" />
+                <input id="refreshRate" name="refreshRate" class="form-control" type="text" placeholder="Refresh Rate" />
                 {% if form.refreshRate.errors %}
                     <ul class="errors text-danger">
                     {% for error in form.refreshRate.errors %}
@@ -133,7 +139,7 @@
 
             <div class="form-floating mb-4">
                 <label for="description">Description</label>
-                <input id="description" name="description" class="form-control" type="text" placeholder="Description" />
+                <textarea id="description" rows="4" cols="50" name="description" class="form-control" type="text" placeholder="Description"></textarea>
                 {% if form.description.errors %}
                     <ul class="errors text-danger">
                     {% for error in form.description.errors %}
@@ -142,21 +148,16 @@
                     </ul>
                 {% endif %}
             </div>
-
-            <div class="form-floating mb-4">
-                <label for="image_URL">Smartphone image:</label>
-                <input type="file" id="image_URL" name="img" accept="image/*">
-            </div>
-
-            
+ 
             <div class="input-group justify-content-between">
                 <div class="form-floating mb-4" style="min-width: 230px;">
-                    <button type="reset" class="btn btn-dark d-block w-100 py-3 mb-4" href="##" onclick="javascript:history.go(-1)">Cancel</button>
+                    <button type="reset" class="btn btn-outline-danger d-block w-100 py-3 mb-4" href="##" onclick="javascript:history.go(-1)">Cancel</button>
                     
                 </div>
             
                 <div class="form-floating mb-4" style="min-width: 230px;">
-                <button type="submit" class="btn btn-dark d-block w-100 py-3 mb-4">Add</button>
+                <button type="submit" class="btn btn-primary d-block w-100 py-3 mb-4">Add</button>
+                </div>
                 
             </div>
 
@@ -165,9 +166,4 @@
 
 </div>
 
-
-
-
 {% endblock %}
-
-
