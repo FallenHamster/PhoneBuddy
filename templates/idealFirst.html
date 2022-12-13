@@ -3,8 +3,69 @@
 {% block title %}Ideal Smartphone {% endblock %}
 
 {% block main %}
+<style>
+    /* The container must be positioned relative: */
+.custom-select {
+  position: relative;
+  font-family: Arial;
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element: */
+}
+
+.select-selected {
+  background-color: DodgerBlue;
+}
+
+/* Style the arrow inside the select element: */
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+/* Point the arrow upwards when the select box is open (active): */
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+/* style the items (options), including the selected item: */
+.select-items div,.select-selected {
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+}
+
+/* Style items (options): */
+.select-items {
+  position: absolute;
+  background-color: DodgerBlue;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/* Hide the items when the select box is closed: */
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+</style>
 <div class="m-auto py-5" style="min-width: 500px;">
-    <form action="/" method="POST">
+    <form action="/idealFirst" method="POST">
         <div>
             <h2 class="text-center fw-bold fs-1 mb-4 p-0 m-0">PhoneBuddy</h2>
 
@@ -12,31 +73,29 @@
 
             <div class="form-floating mb-4">
                 <label for="os">Operating System</label>
-                <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle text-body" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:500px;">
-                    Choose Your OS
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" style="width:500px;" value="ios">iOS</a>
-                    <a class="dropdown-item" style="width:500px;" value="android">Android</a>
-                </div>
+                <br/>
+                <div class="">
+                    <select id="os" style="width:500px;" name="os">
+                        <option value="choose" selected>Choose Your Os</option>
+                        <option value="ios">iOS</option>
+                        <option value="android">Android</option>
+                    </select>
                 </div>
             </div>
 
             <div class="form-floating mb-4">
                 <label for="memory">Memory Size</label>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle text-body" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:500px;">
-                        Choose Your Memory Size
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">32</a>
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">64</a>
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">128</a>
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">256</a>
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">512</a>
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">1000</a>
-                    </div>
+                <br/>
+                <div class="">
+                    <select id="memory" style="width:500px;" name="memory">
+                        <option value="choose" selected>Choose Your Memory Size</option>
+                        <option value="32">32</option>
+                        <option value="64">64</option>
+                        <option value="128">128</option>
+                        <option value="256">256</option>
+                        <option value="512">512</option>
+                        <option value="1000">1000</option>
+                    </select>
                 </div>
             </div>
 
@@ -62,23 +121,22 @@
             </div>
 
             <div class="form-floating mb-4">
-                <label for="memory">Colour</label>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle text-body" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:500px;">
-                        Choose Your Colour
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">Black</a>
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">Silver</a>
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">Gold</a>
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">Purple</a>
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">White</a>
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">Blue</a>
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">Red</a>
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">Copper</a>
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">Green</a>
-                        <a class="dropdown-item text-body" href="#" style="width:500px;">Peach</a>
-                    </div>
+                <label for="colour">Colour</label>
+                <br/>
+                <div class="">
+                    <select id="colour" style="width:500px;" name="colour">
+                        <option value="choose" selected>Choose Your Colour</option>
+                        <option value="Black">Black</option>
+                        <option value="Silver">Silver</option>
+                        <option value="Gold">Gold</option>
+                        <option value="Purple">Purple</option>
+                        <option value="White">White</option>
+                        <option value="Blue">Blue</option>
+                        <option value="Red">Red</option>
+                        <option value="Copper">Copper</option>
+                        <option value="Green">Green</option>
+                        <option value="Peach">Peach</option>
+                    </select>
                 </div>
             </div>
 
