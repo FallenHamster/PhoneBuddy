@@ -73,6 +73,10 @@ INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highpri
 'Li-Ion 3095 mAH',5143,5300,'6.1 inches','120 Hz','Made for low light, the wide camera adds a wider aperture and our largest sensor yet. Ultra Wide gets a wider aperture, a faster sensor, and all-new autofocus. 
 Telephoto now has Night mode.','./iphone13pro.jpg');
 INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highprice,screenSize,refreshRate,description,image_URL) VALUES 
+('Apple','Iphone 14 Pro Max','Hexa-core (2x3.46 GHz Everest + 4x2.02 GHz Sawtooth)','128GB 6GB RAM, 256GB 6GB RAM, 512GB 6GB RAM, 1TB 6GB RAM',
+'Space Black, Silver, Gold, Deep Purple','Li-Ion 4323 mAh',5799,8299,'6.7 inches','120Hz','The iPhone 14 Pro Max display has rounded corners that follow a beautiful curved design, and these corners are within a standard rectangle. When measured as a standard rectangular shape, 
+the screen is 6.69 inches diagonally. Actual viewable area is less.','./iphone-14-pro-max.png');
+INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highprice,screenSize,refreshRate,description,image_URL) VALUES 
 ('Samsung','Samsung Galaxy S21 5G','Octa-core (1x2.9 GHz Cortex-X1 & 3x2.80 GHz Cortex-A78 & 4x2.2 GHz Cortex-A55)','128GB 8GB RAM, 256GB 8GB RAM',
 'Phantom Gray, Phantom White, Phantom Violet, Phantom Pink','Li-Ion 4000 mAh', 2199, 3699,'6.2 inches','120Hz','The Samsung Galaxy S21 
 5G is a smartphone that was tested with the Android 11 operating system. This model weighs 6 ounces, has a 6.2 inch display, 12-megapixel main camera, 
@@ -93,6 +97,17 @@ INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highpri
 ('Samsung','Samsung Galaxy A13','Octa-core (4x2.0 GHz Cortex-A55 & 4x2.0 GHz Cortex-A55)','32GB 3GB RAM, 32GB 4GB RAM, 64GB 4GB RAM, 128GB 4GB RAM, 128GB 6GB RAM',
 'Black, White, Peach, Blue','Li-Po 5000 mAh',699,999,'6.6 inches','60Hz','The Galaxy A13 is one of the few Samsung phones without an OLED display. A simple IPS number, the A13 6.6in screen has a resolution of 2,408 x 1,080 and a pixel density of 400ppi. 
 It is not a scratch on Samsungs AMOLED tech, but you are getting a screen that looks rather good for the money.','./samsung-galaxy-a13.png');
+INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highprice,screenSize,refreshRate,description,image_URL) VALUES 
+('Samsung','Samsung Galaxy A04','Octa-core (4x2.3 GHz & 4x1.8 GHz)','32GB 3GB RAM, 32GB 4GB RAM, 64GB 4GB RAM, 64GB 6GB RAM, 128GB 4GB RAM, 128GB 8GB RAM',
+'Black, Green, White, Copper','Li-Po 5000 mAh',479,559,'6.5 inches','90Hz','Galaxy A04 combines Octa-core processing power with up to 3GB/4GB of RAM for fast and efficient performance for the task at hand.','./Samsung-Galaxy-A04.png');
+INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highprice,screenSize,refreshRate,description,image_URL) VALUES 
+('Samsung','Samsung Galaxy Z Flip 4','Octa-core (1x3.19 GHz Cortex-X2 & 3x2.75 GHz Cortex-A710 & 4x1.80 GHz Cortex-A510)','128GB 8GB RAM, 256GB 8GB RAM, 512GB 8GB RAM','Bora Purple, Graphite, Pink Gold, Blue, Yellow, White, Navy, Khaki, Red',
+'Li-Po 3700 mAh',4099,4899,'6.7 inches','120 Hz','The new Galaxy Z Flip4 offers a boost in performance and features. The newest member of the foldable Galaxy family brings improved features with a longer-lasting battery, super-fast charging, a new processor, 
+a unique hinge in the smartphone world and the ability to customise the external display as you like.','./GALAXY-Z-FLIP4.png');
+INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highprice,screenSize,refreshRate,description,image_URL) VALUES 
+('Samsung','Samsung Galaxy A23 5G','Octa-core (2x2.2 GHz Kryo 660 Gold & 6x1.7 GHz Kryo 660 Silver)','64GB 4GB RAM, 64GB 6GB RAM, 128GB 4GB RAM, 128GB 6GB RAM, 128GB 8GB RAM',
+'Black, White, Peach, Blue','Li-Po 5000 mAh',1399,1399,'6.6 inches','120Hz','The Galaxy A23 5G combines Snapdragon® mobile platform power with up to 8GB of RAM for fast and efficient
+ performance for the task at hand.','./Galaxy A23 5G.png');
 INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highprice,screenSize,refreshRate,description,image_URL) VALUES 
 ('Huawei','Huawei P30','Octa-core (2x2.6 GHz Cortex-A76 & 2x1.92 GHz Cortex-A76 & 4x1.8 GHz Cortex-A55)','64GB 8GB RAM, 128GB 6GB RAM, 128GB 8GB RAM, 256GB 8GB RAM','Aurora, Amber Sunrise, Breathing Crystal, Black, Pearl White',
 'Li-Po 3650 mAh',1599,2685,'6.1 inches','60Hz','The HUAWEI P30 features various functional cases5 with unique colours and design styles. Be beautiful in your own way with extra protection.','./huawei-p30.jpg');
@@ -132,6 +147,10 @@ INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highpri
 ('Xiaomi','Xiaomi 11T Pro','Octa-core (1x2.84 GHz Cortex-X1 & 3x2.42 GHz Cortex-A78 & 4x1.80 GHz Cortex-A55)','128GB 8GB RAM, 256GB 8GB RAM, 256GB 12GB RAM','Meteorite Gray, 
 Moonlight White, Celestial Blue','Li-Po 5000 mAH',1198,1699,'6.67 inches','144Hz','The Xiaomi 11T Pro brings you professional special effects with leading computational 
 videography and pro-grade cameras.','./xiaomi11Tpro.jpg');
+INSERT INTO Smartphone(brand,model,processor,ram,colour,battery,lowprice,highprice,screenSize,refreshRate,description,image_URL) VALUES 
+('Xiaomi','Xiaomi Mix 4','Octa-core (1x2.99 GHz Cortex-X1 & 3x2.42 GHz Cortex-A78 & 4x1.80 GHz Cortex-A55)','128GB 8GB RAM, 256GB 8GB RAM, 256GB 12GB RAM, 512GB 12GB RAM',
+'Ceramic Black, Ceramic White, Shadow Gray','Li-Po 4500 mAh',2459,3115,'6.67 inches','120Hz','The Xiaomi Mix 4 is powered by a Qualcomm SM8350 Snapdragon 888+ 5G (5 nm) CPU processor with 128GB 8GB RAM, 256GB 8GB RAM, 256GB 12GB RAM, 
+512GB 12GB RAM, UFS 3.1. The device also has a 6.67-inch AMOLED (1080 x 2400 pixels, 395 ppi) display.','./Xiaomi-mix-4.png');
 INSERT INTO Smartphone (brand, model, processor, ram, colour, battery, lowprice, highprice, screenSize, refreshRate, description, image_URL) VALUES 
 ('Lenovo', 'Lenovo Legion Pro',' Octa-core (1x3.09 GHz Cortex-A77 & 3x2.42 GHz Cortex-A77 & 4x1.80 GHz Cortex-A55)', '128GB 8GB RAM, 128GB 12GB RAM, 
 256GB 12GB RAM, 512GB 16GB RAM', 'Black', 'Li-Po 5000 mAh', 2098, 3299, '6.65 inches',' 120Hz', 'The Lenovo Legion Phone Duel is powered by 
