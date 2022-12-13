@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}PhoneBuddy - Review {% endblock %}
+
+{% block main %}
+<div class="m-auto py-5" style="min-width: 500px;">
+    <form action="/Review" method="POST">
+       
+        <style>
+            .rating-wrapper img {
+            filter: invert(99%) sepia(1%) saturate(0%) hue-rotate(161deg) brightness(101%) contrast(104%);
+            padding-right: 3px;
+            }
+
+            .rating-checked { 
+            filter: none!important; 
+            }
+
+        </style>
+
+        <script>
+            document.querySelector('.rating-wrapper').addEventListener('click', updateStarRating, false);
+            function updateStarRating(evt){
+            for(i=0; i < parseInt(evt.target.id); i++){
+             const stars = document.querySelectorAll('.rating-wrapper img');
+            for(s=0; s < 5; s++){
+            stars[s].classList.remove('rating-checked');
+            }
+            for(j=0; j < parseInt(evt.target.id); j++){
+            stars[j].classList.add('rating-checked');
+            }
+            }
+    document.querySelector('#rating').value = evt.target.id;
+}
+        </script>
+
+        <div>
+            <h2 class="text-center fw-bold fs-1 mb-4 p-0 m-0">Smartphone name</h2>
+
+            <h3 class="text-center fw-light mb-4">Review</h3>
+
+            <div class="form-floating mb-4">
+                <label for="title">Title</label>
+                <input id="title" name="title" class="form-control" type="text" placeholder="title" />
+                {% if form.title.errors %}
+                    <ul class="errors text-danger">
+                    {% for error in form.title.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-4">
+                <label for="content">Content</label>
+                <input id="content" name="content" class="form-control" type="text" placeholder="Enter your review " />
+                {% if form.content.errors %}
+                <ul class="errors text-danger">
+                {% for error in form.content.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            </div>
+
+            <div class="rating-wrapper">
+                <img id="1" src="static\8XXRUz2.png" width="20">
+                <img id="2" src="static\8XXRUz2.png" width="20">
+                    <img id="3" src="static\8XXRUz2.png" width="20">
+                    <img id="4" src="static\8XXRUz2.png" width="20">
+                    <img id="5" src="static\8XXRUz2.png" width="20">
+               </div>
+               
+               <input type="hidden" value="">
+
+
+            <div class="input-group justify-content-between">
+                <div class="form-floating mb-4" style="min-width: 230px;">
+                    <button type="reset" class="btn btn-dark d-block w-100 py-3 mb-4" href="##" onclick="javascript:history.go(-1)">Cancel</button>
+                    
+                </div>
+            
+                <div class="form-floating mb-4" style="min-width: 230px;">
+                <button type="submit" class="btn btn-dark d-block w-100 py-3 mb-4">Submit</button>
+                
+            </div>
+            
+        </div>
+        
+
+
+    </form>
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

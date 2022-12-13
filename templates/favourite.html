@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}PhoneBuddy - Favourite {% endblock %}
+
+{% block main %}
+
+            <style>
+                .my-container{
+    max-width:1400px;
+    padding:0 4%;
+}
+.my-container .row{
+    margin-left:0;
+    margin-right:0;
+}
+.cart-row-1{
+    margin:20px 0;
+}
+.cart-row-1 h2{
+    margin:auto;
+    padding:10px 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 3px;
+    border-bottom: 4px solid #000000;
+}
+.cart-cont{
+    padding:0 10px;
+    min-height:300px;
+    height:auto;
+    background-color:rgb(238,238,238);
+    box-shadow: 0px 0px 7px lightgray;
+    border-radius: 5px;
+    display:flex;
+    justify-content: center;
+}
+form{
+    width:100%;
+    height:auto;
+    margin:0;
+}
+
+.cart-prod-cont{
+    margin:10px;
+    height:auto;;
+    background-color:white;
+}
+.cart-prod-cont > *{
+    width:100%;
+    height: auto;
+}
+.cart-prod-col-1 img{
+    max-width:100%;
+    max-height:100%;
+    object-fit: contain;
+}
+.cart-prod-col-2,.cart-prod-col-3{
+    display:flex;
+    align-items: center;
+}
+.cart-prod-col-2 div{
+    width:100%;
+}
+.cart-prod-col-1,.cart-prod-col-2 div > div,.cart-prod-col-3{
+    display:flex;
+    justify-content: center;
+}
+.cart-prod-col-2 a{
+    margin:20px 0;
+    color:black;
+    letter-spacing: 2px;
+    font-weight:600;
+    font-size:25px;
+}
+
+.cart-prod-col-2 a:hover{
+    text-shadow:0px 0px 1px gray;
+}
+.cart-prod-col-2 label,span{
+    margin:5px;
+    font-size:20px;
+}
+
+.cart-prod-col-3 .pricing{
+    margin-right:30px;
+}
+.link-cont{
+    float:right;
+    margin:10px 0;
+}
+.link-button{
+    color:black;
+    background-color:white;
+    border: 3px solid black;
+    font-size:20px;
+    font-weight:600;
+    padding:5px 20px;
+    margin:0 5px;
+    text-align: center;
+}
+.link-button:hover{
+    padding:5px 25px;
+    background-color:black;
+    border: 3px solid black;
+    box-shadow: 0px 0px 3px lightgray;
+    color:white;
+    cursor:pointer;
+}
+
+
+
+            </style>
+        <div class="cont-sec" style="padding-bottom:30px;">
+            <div class="container my-container">
+                <div class="row cart-row-1">
+                    <h2>MY Favourite</h2>
+                </div>
+                <div class="row cart-cont">
+                    <form action="/favourite" method="POST">
+                         
+                        <div class="row cart-prod-cont" style="min-height:300px;">
+                            <div class="col-lg-3 col-md-12 cart-prod-col-1">
+                                <img src="<%=currProd.getImagePath()%>" alt=""/>
+                            </div>
+                            <div class="col-lg-4 col-md-12 cart-prod-col-2">
+                                <div>
+                                    <div>
+                                        <a href="product-detail.jsp?id=<%=currProd.getModelID()%>" style="text-decoration:none;"><%=currProd.getModelName()%></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row link-cont">
+                                <input class="link-button" type="submit" name="reset" value="Reset Favourite" />
+                            </div>
+                        </div>
+                       
+                        <div class="row link-cont">
+                            <input class="link-button" type="submit" name="reset" value="Reset Favourite" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+        {% endblock %}
