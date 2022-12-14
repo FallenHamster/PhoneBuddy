@@ -1,7 +1,6 @@
 --To Run Command--
 python -m flask run
 
-
 --To install--
 pip install flask
 pip install wtforms

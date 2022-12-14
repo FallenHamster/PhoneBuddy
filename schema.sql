@@ -34,6 +34,11 @@ INSERT INTO Review(title,content,rating,smartphoneID,userID) VALUES ('Good quali
 INSERT INTO Review(title,content,rating,smartphoneID,userID) VALUES ('Can be improved','Some part of the smartphone can be improved',2.0,3,3);
 INSERT INTO Review(title,content,rating,smartphoneID,userID) VALUES ('Bad','The smartphone is not recommended',1.0,4,3);
 INSERT INTO Review(title,content,rating,smartphoneID,userID) VALUES ('Normal','Good to use',3.0,5,3);
+INSERT INTO Review(title,content,rating,smartphoneID,userID) VALUES ('Nice phone','Quite good to use',4.0,7,4);
+INSERT INTO Review(title,content,rating,smartphoneID,userID) VALUES ('Best phone','Best Smartphone! It is recommended',5.0,8,4);
+INSERT INTO Review(title,content,rating,smartphoneID,userID) VALUES ('Not really good','Smartphone can be improved',2.0,9,4);
+INSERT INTO Review(title,content,rating,smartphoneID,userID) VALUES ('Bad','The smartphone is not recommended',1.0,10,4);
+INSERT INTO Review(title,content,rating,smartphoneID,userID) VALUES ('Normal','Good to use',3.0,11,4);
 
 DROP TABLE IF EXISTS Smartphone;
 

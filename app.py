@@ -72,7 +72,6 @@ def home():
             favourite_count = session['favouritelist']
             max_favourite = max(favourite_count)
             if max_favourite[0] == 0:
-                print(max_favourite[0])
                 session['favourite'] = False
                 return render_template('home.html')
             session['favourite'] = True
@@ -277,7 +276,6 @@ def favourite():
         favourite_count = zip(brands, counts)
         favourite_list = []
         for brand,count in favourite_count:
-            print(f"{count} {brand[0]}")
             favourite_list.append([count,brand[0]])
         session['favouritelist'] = favourite_list
         for favourite in favourites:
