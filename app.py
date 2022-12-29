@@ -265,18 +265,25 @@ def favourite():
                 flash(message,'removed')
         favourites = conn.execute('SELECT Favourite.id, Favourite.smartphoneID, Smartphone.brand, Smartphone.model, Smartphone.lowprice, Smartphone.highprice, Smartphone.image_URL FROM Favourite INNER JOIN Smartphone ON Favourite.userID = ? AND Favourite.smartphoneID = Smartphone.id',(userid)).fetchall()
         ratinglist = []
+        # Retrieve brand record from database
         brands = conn.execute('SELECT DISTINCT brand FROM Smartphone').fetchall()
+        # Create 2 empty list
         counts = []
         favBrand = []
+        # For every favourite, append the brand into favBrand list
         for favourite in favourites:
             favBrand.append(favourite[2])
+        # For every brand, calculate the count of brand and append into counts list
         for brand in brands:
             count = favBrand.count(brand[0])
             counts.append(count)
+        # Use a zip function, it will pair the item in counts and favBrand list
         favourite_count = zip(brands, counts)
+        # Create empty list, and append the 2 list into the empty list
         favourite_list = []
         for brand,count in favourite_count:
             favourite_list.append([count,brand[0]])
+        print(favourite_list)
         session['favouritelist'] = favourite_list
         for favourite in favourites:
             rating = conn.execute('SELECT rating FROM Review WHERE smartphoneID = ?',(favourite[1],)).fetchall()
